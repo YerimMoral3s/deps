@@ -23,3 +23,12 @@ export const createBuilding = async (
   );
   return response.data;
 };
+
+// ✅ Fetch all buildings
+export const getAllBuildings = async (): Promise<ApiResponse<Building[]>> => {
+  const response = await axiosInstance.get<ApiResponse<Building[]>>(
+    "/buildings/"
+  );
+
+  return response.data;
+};
