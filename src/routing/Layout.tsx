@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import { Suspense } from "react";
 import LoaderView from "../components/LoaderView";
-import { Navbar } from "../components/NavBar";
+import { Navbar } from "../components";
 
 const ProtectedLayout = () => {
   return (
