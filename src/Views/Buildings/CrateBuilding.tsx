@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { Modal } from "../../components";
 import styled from "styled-components";
 
 import { useState } from "react";
-import { useCrateBuildings, useTabLoader } from "../../hooks";
+import { useCrateBuildings, useNavs, useTabLoader } from "../../hooks";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { ApiError } from "../../api/axios";
@@ -26,20 +25,13 @@ const StyledCreateBuilding = styled.div`
 `;
 
 const CreateBuilding = () => {
-  const nav = useNavigate();
   const loader = useTabLoader();
-
-  const handleGoBack = () => {
-    if (window.history.state && window.history.state.idx > 0) {
-      nav(-1);
-    } else {
-      nav("/buildings", { replace: true }); // ✅ Replaces current entry in history
-    }
-  };
+  const { handleGoBack } = useNavs();
+  const goBack = () => handleGoBack({ fallback: "BUILDINGS" });
 
   const onSuccess = () => {
     toast.success("La casa ha sido creada");
-    handleGoBack();
+    goBack();
   };
 
   const onLoginError = (error: ApiError) => toast.error(error.message);
@@ -65,7 +57,7 @@ const CreateBuilding = () => {
 
   return (
     <StyledCreateBuilding>
-      <Modal isOpen onClose={handleGoBack} className="fade-in">
+      <Modal isOpen onClose={goBack} className="fade-in">
         <h1>Crear nueva casa</h1>
         <form className="modal-create" onSubmit={handleCreateBuilding}>
           <div className="inputs">
@@ -87,7 +79,7 @@ const CreateBuilding = () => {
             >
               Crear
             </button>
-            <button className="secondary-button" onClick={handleGoBack}>
+            <button className="secondary-button" onClick={goBack}>
               Cancelar
             </button>
           </div>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Building } from "../api/Buildings";
-import { useNavigate } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
+import { useNavs } from "../hooks";
 
 const StyledBuilding = styled.div`
   padding: 1rem;
@@ -13,9 +13,19 @@ const StyledBuilding = styled.div`
 `;
 
 export const BuildingItem = ({ building }: { building: Building }) => {
-  const nav = useNavigate();
+  const { navigateTo } = useNavs();
 
-  const openBuilding = useDebouncedCallback(() => nav("/buildings/crate"), 500);
+  const openBuilding = useDebouncedCallback(
+    () =>
+      navigateTo({
+        route: "BUILDING",
+        params: {
+          id: 1,
+          replace: true,
+        },
+      }),
+    100
+  );
 
   return (
     <StyledBuilding>

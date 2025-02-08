@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BuildingsList, Container } from "../../components";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useNavs } from "../../hooks";
 
 const StyledBuildings = styled.div`
   .head {
@@ -10,9 +11,12 @@ const StyledBuildings = styled.div`
 `;
 
 export default function Buildings() {
-  const nav = useNavigate();
+  const nav = useNavs();
 
-  const openCrateBuilding = () => nav("/buildings/crate");
+  const openCrateBuilding = () =>
+    nav.navigateTo({
+      route: "BUILDINGS_CRATE",
+    });
 
   return (
     <StyledBuildings className="fade-in">

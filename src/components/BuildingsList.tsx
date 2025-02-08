@@ -20,7 +20,7 @@ export const BuildingsList = () => {
   return (
     <StyledBuildingsList>
       {data.data.map((building) => (
-        <BuildingItem building={building} />
+        <BuildingItem key={`building_key_${building.id}`} building={building} />
       ))}
     </StyledBuildingsList>
   );
