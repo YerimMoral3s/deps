@@ -10,8 +10,7 @@ const StyledCard = styled.div`
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  background-color: ${({ theme }) =>
-    theme.colors.background}; /* Asegura fondo */
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Card = ({ children, ...rest }: CardProps) => {
