@@ -62,7 +62,7 @@ axiosInstance.interceptors.response.use(
         const cred = await encryptWithJWT();
 
         // 🔄 Request new access & refresh tokens
-        const response = await axios.post(
+        const response = await axios.post<RefreshTokenResponse>(
           `${API_BASE_URL}/auth/refresh`,
           { refresh_token: refreshToken },
           {
@@ -114,4 +114,14 @@ export type ApiError = {
   success: false;
   message: string;
   errors?: string[];
+};
+
+// ✅ Define the API response type
+export type RefreshTokenResponse = {
+  data: {
+    access_token: string;
+    refresh_token: string;
+  };
+  message: string;
+  success: boolean;
 };
