@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+/* Poppins regular */
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/Poppins/Poppins-Bold.woff2") format("woff2"),
+    url("./assets/fonts/Poppins/Poppins-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Poppins bold */
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/Poppins/Poppins-ExtraBold.woff2") format("woff2"),
+    url("./assets/fonts/Poppins/Poppins-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+/* Open Sans Regular */
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/OpenSans/OpenSans-Regular.woff2") format("woff2"),
+    url("./assets/fonts/OpenSans/OpenSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Open Sans Italic */
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/OpenSans/OpenSans-Italic.woff2") format("woff2"),
+    url("./assets/fonts/OpenSans/OpenSans-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+}
+
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+p {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+a {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+button {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+input,
+textarea {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  resize: none;
+}
+/* 
+* {
+  border: 1px solid red;
+} */
