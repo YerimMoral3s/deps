@@ -59,6 +59,7 @@ const GlobalStyles = createGlobalStyle`
   button {
     background-color: ${({ theme }) => theme.colors.accent};
     color: ${({ theme }) => theme.colors.background};
+    border: 1px solid ${({ theme }) => theme.colors.accent};
     border-radius: 4px;
     padding: 10px 15px;
     transition: background-color 0.3s ease-in-out;
