@@ -22,46 +22,40 @@ export function useNavs() {
    * - If navigating to `"BUILDING"`, `id` is required.
    * - If navigating to any other route, `id` is **not allowed**.
    */
-
-  const navigateTo = <T extends AppRouteKeys>({
-    route,
-    params,
-  }: NavigateProps<T>) => {
-    const { id, replace = false } = params || {};
-
+  const navigateTo = <T extends AppRouteKeys>(data: NavigateProps<T>) => {
     // ✅ Ensure `path` is always a string
-    const path: string =
-      route === "BUILDING" && id !== undefined
-        ? AppRoutes.BUILDING(id) // ✅ Calls the function to get a string
-        : (AppRoutes[route] as string); // ✅ Forces TypeScript to recognize it's a string
-
+    const path = generatePath(data.route, data.params);
     console.log(`Navigating to: ${path}`);
-    nav(path, { replace });
+    nav(path, { replace: !!data.params?.replace });
   };
 
   /**
    * Go back in history, or navigate to a fallback route if no history exists.
    */
-
-  const handleGoBack = <T extends AppRouteKeys>({
-    fallback,
-    params,
-  }: FallbackProps<T>) => {
-    const { id, replace = false } = params || {};
-
+  const handleGoBack = <T extends AppRouteKeys>(data: FallbackProps<T>) => {
     // ✅ Ensure `path` is always a string
-    const path: string =
-      fallback === "BUILDING" && id !== undefined
-        ? AppRoutes.BUILDING(id) // ✅ Calls the function to get a string
-        : (AppRoutes[fallback] as string); // ✅ Forces TypeScript to recognize it's a string
+    const path = generatePath(data.fallback, data.params);
 
-    if (window.history.state && window.history.state.idx > 0) {
+    if (window.history.length > 0) {
       console.log(`history going back`);
       nav(-1);
     } else {
       console.log(`No history. Redirecting to: ${path}`);
-      nav(path, { replace });
+      nav(path, { replace: !!data.params?.replace });
     }
+  };
+  /**
+   * Generate the correct path based on the given route.
+   */
+  const generatePath = <T extends AppRouteKeys>(
+    key: T,
+    params?: NavigationParams<T>
+  ): string => {
+    if (key === "BUILDING") {
+      return `${AppRoutes.BUILDINGS}/${params?.id}`;
+    }
+
+    return AppRoutes[key];
   };
 
   return { navigateTo, handleGoBack };
