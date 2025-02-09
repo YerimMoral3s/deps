@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ThemeProvider } from "styled-components";
-import theme from "./assets/theme";
 
 import GlobalStyles from "./assets/GlobalStyles";
 
@@ -15,7 +14,7 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme_l}>
         <GlobalStyles />
         <LoadingBarContainer props={{ color: theme_l.colors.accent }}>
           <Toaster position="top-right" reverseOrder={false} />
