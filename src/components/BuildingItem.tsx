@@ -20,7 +20,7 @@ export const BuildingItem = ({ building }: { building: Building }) => {
       navigateTo({
         route: "BUILDING",
         params: {
-          id: 1,
+          id: building.id,
           replace: true,
         },
       }),
