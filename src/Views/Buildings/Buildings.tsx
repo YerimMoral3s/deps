@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { BuildingsList, Container } from "../../components";
-import { Outlet } from "react-router-dom";
+import { BuildingsList } from "../../components";
 import { useNavs } from "../../hooks";
+import { Outlet } from "react-router-dom";
 
 const StyledBuildings = styled.div`
   .head {
@@ -10,7 +10,7 @@ const StyledBuildings = styled.div`
   }
 `;
 
-export default function Buildings() {
+const Buildings = () => {
   const nav = useNavs();
 
   const openCrateBuilding = () =>
@@ -20,13 +20,13 @@ export default function Buildings() {
 
   return (
     <StyledBuildings className="fade-in">
-      <Container>
-        <div className="head">
-          <button onClick={openCrateBuilding}>Agregar nueva casa</button>
-        </div>
-        <BuildingsList />
-      </Container>
+      <div className="head">
+        <button onClick={openCrateBuilding}>Agregar nueva casa</button>
+      </div>
+      <BuildingsList />
       <Outlet />
     </StyledBuildings>
   );
-}
+};
+
+export default Buildings;

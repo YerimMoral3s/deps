@@ -3,15 +3,20 @@ import { Navigate } from "react-router-dom";
 import Layout from "./Layout";
 
 const Home = lazy(() => import("../Views/Home"));
-const Buildings = lazy(() => import("../Views/Buildings/Buildings"));
+
+// ✅ Buildings
+const BuildingsLayout = lazy(
+  () => import("../Views/Buildings/BuildingsLayout")
+);
 const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
 const Building = lazy(() => import("../Views/Buildings/Building"));
+const Buildings = lazy(() => import("../Views/Buildings/Buildings"));
 
 export const AppRoutes = {
   HOME: "/",
   BUILDINGS: "/buildings",
   BUILDINGS_CRATE: "/buildings/crate",
-  BUILDING: (id: string | number): string => `/building/${id}`, // ✅ Function to handle dynamic `id`
+  BUILDING: "/buildings/:id",
   NOT_FOUND: "*",
 } as const;
 
@@ -28,13 +33,20 @@ const privateRoutes = () => [
       { path: AppRoutes.HOME, element: <Home /> },
       {
         path: AppRoutes.BUILDINGS,
-        element: <Buildings />,
+        element: <BuildingsLayout />,
         children: [
-          { path: AppRoutes.BUILDINGS_CRATE, element: <CrateBuilding /> }, // ✅ Nested route for individual building details
+          {
+            path: AppRoutes.BUILDINGS,
+            element: <Buildings />,
+            children: [
+              { path: AppRoutes.BUILDINGS_CRATE, element: <CrateBuilding /> }, // ✅ Nested route for individual building details
+            ],
+          },
+          { path: AppRoutes.BUILDING, element: <Building /> },
         ],
       },
-      { path: "/building/:id", element: <Building /> },
-      { path: "*", element: <Navigate to="/" replace /> },
+
+      { path: AppRoutes.NOT_FOUND, element: <Navigate to="/" replace /> },
     ],
   },
 ];
