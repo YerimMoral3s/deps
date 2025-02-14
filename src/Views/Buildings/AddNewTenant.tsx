@@ -24,10 +24,11 @@ const StyledCreateBuilding = styled.div`
   }
 `;
 
-const CreateBuilding = () => {
+const AddNewTenant = () => {
   const loader = useTabLoader();
   const { handleGoBack } = useNavs();
-  const goBack = () => handleGoBack({ fallback: "buildings" });
+  const goBack = () =>
+    handleGoBack({ fallback: "building", props: { buildingId: 1 } });
 
   const onSuccess = () => {
     toast.success("La casa ha sido creada");
@@ -58,7 +59,7 @@ const CreateBuilding = () => {
   return (
     <StyledCreateBuilding>
       <Modal isOpen onClose={goBack} className="fade-in">
-        <h1>Crear nueva casa</h1>
+        <h1>Crear pendejo</h1>
         <form className="modal-create" onSubmit={handleCreateBuilding}>
           <div className="inputs">
             <label htmlFor="name">Nombre de la casa</label>
@@ -89,4 +90,4 @@ const CreateBuilding = () => {
   );
 };
 
-export default CreateBuilding;
+export default AddNewTenant;

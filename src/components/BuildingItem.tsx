@@ -18,11 +18,8 @@ export const BuildingItem = ({ building }: { building: Building }) => {
   const openBuilding = useDebouncedCallback(
     () =>
       navigateTo({
-        route: "BUILDING",
-        params: {
-          id: building.id,
-          replace: true,
-        },
+        route: "building",
+        props: { buildingId: building.id },
       }),
     100
   );

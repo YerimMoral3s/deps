@@ -15,7 +15,7 @@ const Buildings = () => {
 
   const openCrateBuilding = () =>
     nav.navigateTo({
-      route: "BUILDINGS_CRATE",
+      route: "buildings_crate",
     });
 
   return (

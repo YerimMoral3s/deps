@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { Children, lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "./Layout";
 
@@ -8,45 +8,75 @@ const Home = lazy(() => import("../Views/Home"));
 const BuildingsLayout = lazy(
   () => import("../Views/Buildings/BuildingsLayout")
 );
-const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
-const Building = lazy(() => import("../Views/Buildings/Building"));
 const Buildings = lazy(() => import("../Views/Buildings/Buildings"));
+const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
+// ✅ Building
+const BuildingLayout = lazy(() => import("../Views/Buildings/BuildingLayout"));
+const Building = lazy(() => import("../Views/Buildings/Building"));
+const AddNewTenant = lazy(() => import("../Views/Buildings/AddNewTenant"));
 
-export const AppRoutes = {
-  HOME: "/",
-  BUILDINGS: "/buildings",
-  BUILDINGS_CRATE: "/buildings/crate",
-  BUILDING: "/buildings/:id",
-  NOT_FOUND: "*",
+// ✅ Define AppRoutesList with correct paths
+export const AppRoutesList = {
+  home: "/",
+  buildings: "/buildings",
+  buildings_crate: "/buildings/crate",
+  building: "/buildings/:buildingId",
+  building_add_tenant: "/buildings/:buildingId/add-tenant",
+  not_founded: "*",
 } as const;
 
-export type AppRouteKeys = keyof typeof AppRoutes;
+export type AppRouteKeys = keyof typeof AppRoutesList;
 
-export type NavigationParams<T extends AppRouteKeys> = T extends "BUILDING"
-  ? { id: string | number; replace?: boolean }
-  : { id?: never; replace?: boolean };
+export type AppRoutesParams = {
+  home: undefined;
+  buildings: undefined;
+  buildings_crate: undefined;
+  building: { buildingId: string | number };
+  building_add_tenant: { buildingId: string | number };
+  not_founded: "*";
+};
 
+// ✅ Correct route configuration
 const privateRoutes = () => [
   {
     element: <Layout />,
     children: [
-      { path: AppRoutes.HOME, element: <Home /> },
+      { path: AppRoutesList.home, element: <Home /> },
       {
-        path: AppRoutes.BUILDINGS,
+        path: AppRoutesList.buildings,
         element: <BuildingsLayout />,
         children: [
           {
-            path: AppRoutes.BUILDINGS,
+            path: "",
             element: <Buildings />,
             children: [
-              { path: AppRoutes.BUILDINGS_CRATE, element: <CrateBuilding /> }, // ✅ Nested route for individual building details
+              {
+                path: AppRoutesList.buildings_crate,
+                element: <CrateBuilding />,
+              },
             ],
           },
-          { path: AppRoutes.BUILDING, element: <Building /> },
+          {
+            path: AppRoutesList.building,
+            element: <BuildingLayout />,
+            children: [
+              {
+                path: "",
+                element: <Building />,
+                children: [
+                  {
+                    path: AppRoutesList.building_add_tenant,
+                    element: <AddNewTenant />,
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
 
-      { path: AppRoutes.NOT_FOUND, element: <Navigate to="/" replace /> },
+      // ✅ Fallback route
+      { path: AppRoutesList.not_founded, element: <Navigate to="/" replace /> },
     ],
   },
 ];
