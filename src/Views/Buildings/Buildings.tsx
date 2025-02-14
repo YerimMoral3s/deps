@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BuildingsList } from "../../components";
+import { BuildingsList, Container } from "../../components";
 import { useNavs } from "../../hooks";
 import { Outlet } from "react-router-dom";
 
@@ -20,11 +20,13 @@ const Buildings = () => {
 
   return (
     <StyledBuildings className="fade-in">
-      <div className="head">
-        <button onClick={openCrateBuilding}>Agregar nueva casa</button>
-      </div>
-      <BuildingsList />
-      <Outlet />
+      <Container>
+        <div className="head">
+          <button onClick={openCrateBuilding}>Agregar nueva casa</button>
+        </div>
+        <BuildingsList />
+        <Outlet />
+      </Container>
     </StyledBuildings>
   );
 };

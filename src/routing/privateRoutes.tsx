@@ -1,17 +1,12 @@
-import { Children, lazy } from "react";
-import { Navigate } from "react-router-dom";
+import { lazy } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import Layout from "./Layout";
 
 const Home = lazy(() => import("../Views/Home"));
-
 // ✅ Buildings
-const BuildingsLayout = lazy(
-  () => import("../Views/Buildings/BuildingsLayout")
-);
 const Buildings = lazy(() => import("../Views/Buildings/Buildings"));
 const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
 // ✅ Building
-const BuildingLayout = lazy(() => import("../Views/Buildings/BuildingLayout"));
 const Building = lazy(() => import("../Views/Buildings/Building"));
 const AddNewTenant = lazy(() => import("../Views/Buildings/AddNewTenant"));
 
@@ -44,7 +39,7 @@ const privateRoutes = () => [
       { path: AppRoutesList.home, element: <Home /> },
       {
         path: AppRoutesList.buildings,
-        element: <BuildingsLayout />,
+        element: <Outlet />,
         children: [
           {
             path: "",
@@ -58,7 +53,7 @@ const privateRoutes = () => [
           },
           {
             path: AppRoutesList.building,
-            element: <BuildingLayout />,
+            element: <Outlet />,
             children: [
               {
                 path: "",
