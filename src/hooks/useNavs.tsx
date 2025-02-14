@@ -37,13 +37,19 @@ export function useNavs() {
    */
   const handleGoBack = <T extends AppListTypes>(data: FallbackProps<T>) => {
     const { fallback, props } = data;
-    // nav(-1);
     // ✅ Ensure `path` is always a string
     const path = generatePath({
       route: fallback as AppListTypes,
       props: props,
     });
-    nav(path, { replace: !!data.replace });
+
+    if (window.history.length > 4) {
+      console.log(`history going back`);
+      nav(-1);
+    } else {
+      console.log(`No history. Redirecting to: ${path}`);
+      nav(path, { replace: !!data.replace });
+    }
   };
   /**
    * Generate the correct path based on the given route.
