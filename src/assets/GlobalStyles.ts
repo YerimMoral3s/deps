@@ -99,7 +99,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   /* Inputs and Textareas */
-  input, textarea {
+  input, textarea, select {
     background-color: ${({ theme }) => theme.colors.secondaryBackground};
     color: ${({ theme }) => theme.colors.text};
     border: 1px solid ${({ theme }) => theme.colors.textSecondary};

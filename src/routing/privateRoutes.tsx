@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { Children, lazy } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Layout from "./Layout";
 
@@ -9,6 +9,10 @@ const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
 // ✅ Building
 const Building = lazy(() => import("../Views/Buildings/Building"));
 const AddNewTenant = lazy(() => import("../Views/Buildings/AddNewTenant"));
+const AdminBuilding = lazy(() => import("../Views/Buildings/AdminBuilding"));
+const CreateDepartment = lazy(
+  () => import("../Views/Buildings/CreateDepartment")
+);
 
 // ✅ Define AppRoutesList with correct paths
 export const AppRoutesList = {
@@ -17,6 +21,8 @@ export const AppRoutesList = {
   buildings_crate: "/buildings/crate",
   building: "/buildings/:buildingId",
   building_add_tenant: "/buildings/:buildingId/add-tenant",
+  building_admin: "/buildings/:buildingId/admin",
+  building_create_department: "/buildings/:buildingId/admin/create",
   not_founded: "*",
 } as const;
 
@@ -28,6 +34,8 @@ export type AppRoutesParams = {
   buildings_crate: undefined;
   building: { buildingId: string | number };
   building_add_tenant: { buildingId: string | number };
+  building_admin: { buildingId: string | number };
+  building_create_department: { buildingId: string | number };
   not_founded: "*";
 };
 
@@ -65,11 +73,26 @@ const privateRoutes = () => [
                   },
                 ],
               },
+              {
+                path: AppRoutesList.building_admin,
+                element: <Outlet />,
+                children: [
+                  {
+                    path: "",
+                    element: <AdminBuilding />,
+                    children: [
+                      {
+                        path: AppRoutesList.building_create_department,
+                        element: <CreateDepartment />,
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
           },
         ],
       },
-
       // ✅ Fallback route
       { path: AppRoutesList.not_founded, element: <Navigate to="/" replace /> },
     ],

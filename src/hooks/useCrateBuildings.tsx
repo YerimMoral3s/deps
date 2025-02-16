@@ -7,6 +7,7 @@ import {
 import { Building, createBuilding } from "../api/Buildings";
 import { ApiError, ApiResponse } from "../api/axios";
 import axios from "axios";
+import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
 
 // ✅ Custom Hook for fetching and managing buildings
 export const useCrateBuildings = (
@@ -22,7 +23,7 @@ export const useCrateBuildings = (
 
       // ✅ Optimistically update cache
       queryClient.setQueryData(
-        ["buildings"],
+        QUERY_KEY_BUILDINGS,
         (oldData?: { data: Building[] }) => ({
           ...oldData,
           data: oldData

@@ -2,7 +2,12 @@ import { Modal } from "../../components";
 import styled from "styled-components";
 
 import { useState } from "react";
-import { useCrateBuildings, useNavs, useTabLoader } from "../../hooks";
+import {
+  useCrateBuildings,
+  useNavs,
+  useRouteParams,
+  useTabLoader,
+} from "../../hooks";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { ApiError } from "../../api/axios";
@@ -26,9 +31,14 @@ const StyledCreateBuilding = styled.div`
 
 const AddNewTenant = () => {
   const loader = useTabLoader();
+  const { buildingId } = useRouteParams<{ buildingId?: string }>();
   const { handleGoBack } = useNavs();
-  const goBack = () =>
-    handleGoBack({ fallback: "building", props: { buildingId: 1 } });
+
+  const goBack = () => {
+    if (buildingId) {
+      handleGoBack({ fallback: "building", props: { buildingId: buildingId } });
+    }
+  };
 
   const onSuccess = () => {
     toast.success("La casa ha sido creada");
@@ -44,9 +54,8 @@ const AddNewTenant = () => {
 
   const [name, setName] = useState<string>(""); // ✅ Ensured state is properly initialized
 
-  const handleCreateBuilding = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateBuilding = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    debouncedCrate();
   };
 
   const debouncedCrate = useDebouncedCallback(() => {
@@ -64,7 +73,6 @@ const AddNewTenant = () => {
           <div className="inputs">
             <label htmlFor="name">Nombre de la casa</label>
             <input
-              required
               type="text"
               id="name"
               placeholder="Casa de los chinos..."
