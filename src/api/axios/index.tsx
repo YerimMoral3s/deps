@@ -114,3 +114,17 @@ export type RefreshTokenResponse = {
   message: string;
   success: boolean;
 };
+
+export type PaginatedResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T & {
+    pagination: {
+      page: number;
+      per_page: number;
+      total_pages: number;
+      total_items: number;
+      has_next: boolean;
+    };
+  };
+};

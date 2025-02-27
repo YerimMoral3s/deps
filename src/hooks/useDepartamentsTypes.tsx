@@ -18,11 +18,3 @@ export const useDepartmentsTypes = () => {
       }),
   };
 };
-
-export const invalidateDepartamentsTypesQueries = () => {
-  const queryClient = useQueryClient();
-
-  return queryClient.invalidateQueries({
-    queryKey: QUERY_KEY_DEPARTMENTS_QUERY,
-  });
-};

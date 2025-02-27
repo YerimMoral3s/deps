@@ -11,7 +11,7 @@ import {
   createDepartment,
   CreateDepartmentData,
   Department,
-} from "../api/departaments";
+} from "../api/departments";
 import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
 
 export const useCreateDepartment = (
