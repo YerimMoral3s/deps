@@ -36,6 +36,7 @@ export default function Building() {
 
   const navigateAddNewTenant = () => {
     if (urlParams.buildingId) {
+      setIsMenuOpen(!isMenuOpen);
       navigateTo({
         route: "building_add_tenant",
         props: { buildingId: urlParams.buildingId },
@@ -45,6 +46,7 @@ export default function Building() {
 
   const navigateAdminBuilding = () => {
     if (urlParams.buildingId) {
+      setIsMenuOpen(!isMenuOpen);
       navigateTo({
         route: "building_admin",
         props: { buildingId: urlParams.buildingId },
@@ -52,13 +54,20 @@ export default function Building() {
     }
   };
 
+  if (!urlParams.buildingId) {
+    return null;
+  }
+
   return (
-    <StyledBuilding className="fade-in">
+    <StyledBuilding
+      className="fade-in"
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+    >
       <Container>
         <div className="head">
           <button className="secondary-button" onClick={goBack}>
             <FaChevronLeft />
-            Regrear
+            Regresar
           </button>
           <KebabMenu
             isOpen={isMenuOpen}
@@ -69,12 +78,13 @@ export default function Building() {
                 onClick: navigateAddNewTenant,
               },
               {
-                copy: "Administrar edificio",
+                copy: "Administrar Edificio",
                 onClick: navigateAdminBuilding,
               },
             ]}
           />
         </div>
+        LISTA DE INQUILINOS Y ESTADISTICAS
       </Container>
       <Outlet />
     </StyledBuilding>
