@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useCreateDepartment, useNavs, useRouteParams } from "../../hooks";
+import { useNavs, useRouteParams } from "../../hooks";
 import { FaChevronLeft } from "react-icons/fa";
 import { Container } from "../../components";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
+import DepartmentsByBuilding from "../../components/DepartmentsByBuilding";
 
 const StyledAdminBuilding = styled.div`
   .head {
@@ -48,6 +49,10 @@ export default function AdminBuilding() {
     }
   };
 
+  if (!urlParams.buildingId) {
+    return null;
+  }
+
   return (
     <StyledAdminBuilding>
       <Container>
@@ -60,6 +65,7 @@ export default function AdminBuilding() {
             Agregar nuevo departamento
           </button>
         </div>
+        <DepartmentsByBuilding buildingId={urlParams.buildingId} />
       </Container>
       <Outlet />
     </StyledAdminBuilding>

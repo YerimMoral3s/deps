@@ -7,3 +7,4 @@ export * from "./useNavs";
 export * from "./useDepartamentsTypes";
 export * from "./useUrlParams";
 export * from "./useCreateDepartment";
+export * from "./useInfiniteDepartments";

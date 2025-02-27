@@ -6,3 +6,4 @@ export * from "./NavBar";
 export * from "./BuildingsList";
 export * from "./BuildingsList";
 export * from "./KebabMenu";
+export * from "./DepartmentsByBuilding";
