@@ -8,3 +8,4 @@ export * from "./useDepartamentsTypes";
 export * from "./useUrlParams";
 export * from "./useCreateDepartment";
 export * from "./useInfiniteDepartments";
+export * from "./useBuilding";
