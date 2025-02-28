@@ -1,5 +1,7 @@
 import axiosInstance, { ApiResponse } from "../axios";
 
+const path = "buildings";
+
 // ✅ Define the `Building` type
 export type Building = {
   id: number;
@@ -12,11 +14,9 @@ export type Building = {
 export type CreateBuildingResponse = ApiResponse<Building>;
 
 // ✅ API function to create a new building
-export const createBuilding = async (
-  name: string
-): Promise<CreateBuildingResponse> => {
+export const createBuilding = async (name: string) => {
   const response = await axiosInstance.post<CreateBuildingResponse>(
-    "buildings/create-building",
+    `${path}/create-building`,
     {
       name,
     }
@@ -26,9 +26,18 @@ export const createBuilding = async (
 
 // ✅ Fetch all buildings
 export const getAllBuildings = async (): Promise<ApiResponse<Building[]>> => {
-  const response = await axiosInstance.get<ApiResponse<Building[]>>(
-    "/buildings/"
-  );
+  const response = await axiosInstance.get<ApiResponse<Building[]>>(`${path}/`);
 
+  return response.data;
+};
+
+// ✅ Define API response type for `getBuildingById`
+export type GetBuildingResponse = ApiResponse<Building>;
+
+// ✅ API function to get a building by ID
+export const getBuildingById = async (buildingId: string) => {
+  const response = await axiosInstance.get<GetBuildingResponse>(
+    `${path}/${buildingId}`
+  );
   return response.data;
 };
