@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavs, useRouteParams } from "../../hooks";
+import { useBuilding, useNavs, useRouteParams } from "../../hooks";
 import { FaChevronLeft } from "react-icons/fa";
 import { Container } from "../../components";
 import styled from "styled-components";
@@ -20,6 +20,9 @@ const StyledAdminBuilding = styled.div`
       }
     }
   }
+  h2 {
+    margin-top: 0.75rem;
+  }
 `;
 
 export default function AdminBuilding() {
@@ -31,6 +34,10 @@ export default function AdminBuilding() {
       handleGoBack({ fallback: "buildings" });
     }
   }, []);
+
+  if (!urlParams.buildingId) {
+    return null;
+  }
 
   const goBack = () =>
     urlParams.buildingId
@@ -49,22 +56,19 @@ export default function AdminBuilding() {
     }
   };
 
-  if (!urlParams.buildingId) {
-    return null;
-  }
-
   return (
-    <StyledAdminBuilding>
+    <StyledAdminBuilding className="fade-in">
       <Container>
         <div className="head">
           <button className="secondary-button" onClick={goBack}>
             <FaChevronLeft />
-            Regrear
+            Regresar
           </button>
           <button onClick={navigateCreateNewDepartment}>
             Agregar nuevo departamento
           </button>
         </div>
+        <h2>Lista de departamentos</h2>
         <DepartmentsByBuilding buildingId={urlParams.buildingId} />
       </Container>
       <Outlet />
