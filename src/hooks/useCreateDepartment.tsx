@@ -13,6 +13,7 @@ import {
   Department,
 } from "../api/departments";
 import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
+import { depsQueryKeys } from "./useInfiniteDepartments";
 
 export const useCreateDepartment = (
   options?: UseMutationOptions<
@@ -34,6 +35,12 @@ export const useCreateDepartment = (
 
       queryClient.invalidateQueries({
         queryKey: QUERY_KEY_BUILDINGS,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: depsQueryKeys.getDepartmentsByBuilding(
+          data.data.building_id.toString()
+        ),
       });
 
       console.log("✅ Department created successfully:", data);

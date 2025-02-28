@@ -42,7 +42,6 @@ const DepartmentList: React.FC<Readonly<{ buildingId: string }>> = ({
 
   return (
     <StyledAdminBuilding>
-      <h2>Departmentos de </h2>
       <StyledAdminBuildingDepartments>
         {departments.map((department, idx) => (
           <StyledAdminBuildingDepartment

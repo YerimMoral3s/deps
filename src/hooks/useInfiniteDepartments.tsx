@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getDepartmentsByBuilding } from "../api/departments";
 
-const depsQueryKeys = {
+export const depsQueryKeys = {
   departments: [{ scope: "departments" }] as const,
-  getDepartmentsByBuilding: (buildingId: string, page: number) =>
-    [{ ...depsQueryKeys.departments[0], buildingId, page }] as const,
+  getDepartmentsByBuilding: (buildingId: string) =>
+    [{ ...depsQueryKeys.departments[0], buildingId }] as const,
 };
 
 export const useInfiniteDepartments = ({
@@ -13,7 +13,7 @@ export const useInfiniteDepartments = ({
   buildingId: string;
 }) => {
   const query = useInfiniteQuery({
-    queryKey: depsQueryKeys.getDepartmentsByBuilding(buildingId, 1),
+    queryKey: depsQueryKeys.getDepartmentsByBuilding(buildingId),
     queryFn: ({ pageParam = 1 }) =>
       getDepartmentsByBuilding({
         buildingId,
@@ -27,6 +27,7 @@ export const useInfiniteDepartments = ({
     },
   });
 
+  // ✅ Correct extraction of `departments`
   const departments =
     query.data?.pages.flatMap((page) => page.data.departments) ?? [];
 
