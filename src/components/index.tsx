@@ -8,3 +8,5 @@ export * from "./BuildingsList";
 export * from "./KebabMenu";
 export * from "./DepartmentsByBuilding";
 export * from "./DepartmentByBuildingItem";
+export * from "./MagnifyingVector";
+export * from "./EmptyState";

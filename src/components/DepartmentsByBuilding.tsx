@@ -3,9 +3,13 @@ import { useInfiniteDepartments } from "../hooks";
 import styled from "styled-components";
 import theme_l from "../assets/theme";
 import { DepartmentByBuildingItem } from "./DepartmentByBuildingItem";
+import EmptyState from "./EmptyState";
 
 const StyledAdminBuilding = styled.div`
   margin-top: 1rem;
+  h2 {
+    margin-top: 0.75rem;
+  }
 `;
 
 const StyledAdvancedFilters = styled.div`
@@ -30,9 +34,9 @@ const StyledAdvancedFilters = styled.div`
   }
 `;
 
-const DepartmentList: React.FC<Readonly<{ buildingId: string }>> = ({
-  buildingId,
-}) => {
+export const DepartmentsByBuilding: React.FC<
+  Readonly<{ buildingId: string }>
+> = ({ buildingId }) => {
   const {
     departments = [],
     fetchNextPage,
@@ -83,8 +87,13 @@ const DepartmentList: React.FC<Readonly<{ buildingId: string }>> = ({
     [selectedFilter, selectedBedrooms, selectedBathrooms, departments]
   );
 
+  if (departments.length === 0) {
+    return <EmptyState copy="No se encontraron departamentos" />;
+  }
+
   return (
     <StyledAdminBuilding>
+      <h2>Lista de departamentos</h2>
       <StyledAdvancedFilters>
         <div className="item">
           <label htmlFor="status-filter">Estado:</label>
@@ -161,5 +170,3 @@ const DepartmentList: React.FC<Readonly<{ buildingId: string }>> = ({
     </StyledAdminBuilding>
   );
 };
-
-export default DepartmentList;

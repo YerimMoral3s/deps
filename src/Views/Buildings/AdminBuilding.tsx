@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useBuilding, useNavs, useRouteParams } from "../../hooks";
+import { useNavs, useRouteParams } from "../../hooks";
 import { FaChevronLeft } from "react-icons/fa";
-import { Container } from "../../components";
+import { Container, DepartmentsByBuilding } from "../../components";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
-import DepartmentsByBuilding from "../../components/DepartmentsByBuilding";
 
 const StyledAdminBuilding = styled.div`
   .head {
@@ -19,9 +18,6 @@ const StyledAdminBuilding = styled.div`
         margin-right: 0.5rem;
       }
     }
-  }
-  h2 {
-    margin-top: 0.75rem;
   }
 `;
 
@@ -68,7 +64,7 @@ export default function AdminBuilding() {
             Agregar nuevo departamento
           </button>
         </div>
-        <h2>Lista de departamentos</h2>
+
         <DepartmentsByBuilding buildingId={urlParams.buildingId} />
       </Container>
       <Outlet />

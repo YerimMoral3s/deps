@@ -14,7 +14,8 @@ const StyledAdminBuildingDepartment = styled.div<{ $background: string }>`
   gap: 1rem;
 
   .beds,
-  .baths {
+  .baths,
+  .more {
     flex: 1;
   }
 
@@ -68,7 +69,7 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
       </div>
       <div className="item beds">
         <p>
-          {department.department_type.bedrooms}{" "}
+          {department.department_type.bedrooms}
           {getBedsCopy(department.department_type.bedrooms)}
         </p>
       </div>
@@ -78,9 +79,20 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
           {getBathCopy(department.department_type.bathrooms)}
         </p>
       </div>
+      {/* <div className="item more">
+        <p>${formatPrice(department.department_type.base_rent_price ?? "")}</p>
+      </div> */}
       <div className="item more">
         <a href="#">Ver más</a>
       </div>
     </StyledAdminBuildingDepartment>
   );
 };
+
+// function formatPrice(price: string) {
+//   let formattedPrice = Number(price).toLocaleString("en-US", {
+//     minimumFractionDigits: 2,
+//     maximumFractionDigits: 2,
+//   });
+//   return `${formattedPrice}`;
+// }
