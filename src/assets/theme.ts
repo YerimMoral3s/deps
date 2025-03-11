@@ -31,4 +31,20 @@ const theme_l = {
     secondary: "'Poppins', sans-serif", // Fuente secundaria para encabezados
   },
 };
+
+// const theme_l = {
+//   colors: {
+//     background: "#f8f4e1", // Fondo principal (beige claro)
+//     secondaryBackground: "#e3dac9", // Fondo secundario (tono arena suave)
+//     text: "#3d3d3d", // Texto principal (gris oscuro)
+//     textSecondary: "#5c5c5c", // Texto secundario (gris medio)
+//     accent: "#d35400", // Naranja quemado para botones y enlaces
+//     accentHover: "#a04000", // Naranja oscuro para hover
+//   },
+//   fonts: {
+//     primary: "'Open Sans', sans-serif", // Fuente principal
+//     secondary: "'Poppins', sans-serif", // Fuente secundaria para encabezados
+//   },
+// };
+
 export default theme_l;

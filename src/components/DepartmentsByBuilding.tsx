@@ -4,6 +4,7 @@ import styled from "styled-components";
 import theme_l from "../assets/theme";
 import { DepartmentByBuildingItem } from "./DepartmentByBuildingItem";
 import EmptyState from "./EmptyState";
+import { Dots } from "./Dots";
 
 const StyledAdminBuilding = styled.div`
   margin-top: 1rem;
@@ -161,10 +162,10 @@ export const DepartmentsByBuilding: React.FC<
           />
         ))
       ) : (
-        <p>No hay departamentos que coincidan con los filtros seleccionados.</p>
+        <EmptyState copy="No hay departamentos que coincidan con los filtros seleccionados." />
       )}
 
-      {isFetchingNextPage && <p>Loading more...</p>}
+      {isFetchingNextPage && <Dots />}
 
       <div ref={loadMoreRef}></div>
     </StyledAdminBuilding>

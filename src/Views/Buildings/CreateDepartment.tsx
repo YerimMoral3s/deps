@@ -15,7 +15,9 @@ import { ApiError } from "../../api/axios";
 const StyledCreateBuilding = styled.div`
   width: 100vw;
   height: 100vh;
-
+  h2 {
+    color: ${({ theme }) => theme.colors.accent};
+  }
   .modal-create {
     display: flex;
     flex-direction: column;
@@ -83,7 +85,7 @@ const CreateDepartment = () => {
   return (
     <StyledCreateBuilding>
       <Modal isOpen onClose={goBack} className="fade-in">
-        <h1>Agregar Nuevo departamento</h1>
+        <h2>Agregar Nuevo departamento</h2>
         <form className="modal-create" onSubmit={handleCreateBuilding}>
           <div className="inputs">
             <label htmlFor="dep_type">Tipo de departamento</label>

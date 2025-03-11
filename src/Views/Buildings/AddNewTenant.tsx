@@ -16,6 +16,10 @@ const StyledCreateBuilding = styled.div`
   width: 100vw;
   height: 100vh;
 
+  h2 {
+    color: ${({ theme }) => theme.colors.accent};
+  }
+
   .modal-create {
     display: flex;
     flex-direction: column;
@@ -68,7 +72,7 @@ const AddNewTenant = () => {
   return (
     <StyledCreateBuilding>
       <Modal isOpen onClose={goBack} className="fade-in">
-        <h1>Crear pendejo</h1>
+        <h2>Crear pendejo</h2>
         <form className="modal-create" onSubmit={handleCreateBuilding}>
           <div className="inputs">
             <label htmlFor="name">Nombre de la casa</label>
