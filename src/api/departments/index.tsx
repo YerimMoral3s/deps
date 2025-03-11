@@ -9,8 +9,18 @@ export type CreateDepartmentData = {
 export type Department = {
   id: number;
   building_id: number;
-  department_type_id: number;
   status: "disponible" | "ocupado" | "mantenimiento";
+  created_at: string;
+  updated_at: string;
+  department_type: DepartmentType; // Include full department type details
+};
+
+export type DepartmentType = {
+  id: number;
+  bedrooms: number;
+  bathrooms: number;
+  base_rent_price: string | null; // Ensure it's a string since API returns it as a string
+  description: string | null;
   created_at: string;
   updated_at: string;
 };

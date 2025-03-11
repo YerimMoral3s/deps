@@ -7,3 +7,4 @@ export * from "./BuildingsList";
 export * from "./BuildingsList";
 export * from "./KebabMenu";
 export * from "./DepartmentsByBuilding";
+export * from "./DepartmentByBuildingItem";
