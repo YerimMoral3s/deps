@@ -8,36 +8,10 @@ const StyledAdminBuilding = styled.div`
   margin-top: 1rem;
 `;
 
-const StyledFilterBar = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-
-  button {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.secondaryBackground};
-
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.accentHover};
-    }
-
-    &.active {
-      background-color: ${({ theme }) => theme.colors.accent};
-      color: white;
-    }
-  }
-`;
-
 const StyledAdvancedFilters = styled.div`
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 2rem;
   align-items: center;
   flex-wrap: wrap;
 
@@ -111,18 +85,20 @@ const DepartmentList: React.FC<Readonly<{ buildingId: string }>> = ({
 
   return (
     <StyledAdminBuilding>
-      <StyledFilterBar>
-        {["Todos", "Disponible", "Ocupado", "Mantenimiento"].map((status) => (
-          <button
-            key={status}
-            className={selectedFilter === status ? "active" : ""}
-            onClick={() => setSelectedFilter(status)}
-          >
-            {status}
-          </button>
-        ))}
-      </StyledFilterBar>
       <StyledAdvancedFilters>
+        <div className="item">
+          <label htmlFor="status-filter">Estado:</label>
+          <select
+            id="status-filter"
+            value={selectedFilter}
+            onChange={(e) => setSelectedFilter(e.target.value)}
+          >
+            <option value="Todos">Todos</option>
+            <option value="Disponible">Disponible</option>
+            <option value="Ocupado">Ocupado</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+          </select>
+        </div>
         <div className="item">
           <label htmlFor="selectedBedrooms">Habitaciones:</label>
           <select
