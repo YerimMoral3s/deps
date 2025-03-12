@@ -88,21 +88,19 @@ export default function Department() {
               <GoDotFill color={getStatusColor(department.status)} />
             </h3>
           </div>
-          {department.department_type.base_rent_price !== null && (
+          {department.base_rent_price !== null && (
             <div className="department-item base_rent_price">
-              <p>Renta base</p>
-              <h3>
-                $ {formatPrice(department.department_type.base_rent_price)}
-              </h3>
+              <p>Renta base mensual</p>
+              <h3>$ {formatPrice(department.base_rent_price)}</h3>
             </div>
           )}
           <div className="department-item bedrooms">
             <p>Habitaciones</p>
-            <h3>{department.department_type.bedrooms}</h3>
+            <h3>{department.bedrooms}</h3>
           </div>
           <div className="department-item bathrooms">
             <p>Baños</p>
-            <h3>{department.department_type.bathrooms}</h3>
+            <h3>{department.bathrooms}</h3>
           </div>
         </div>
       </Container>

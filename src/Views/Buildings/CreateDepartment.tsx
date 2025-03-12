@@ -1,9 +1,8 @@
 import { Modal } from "../../components";
 import styled from "styled-components";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   useCreateDepartment,
-  useDepartmentsTypes,
   useNavs,
   useRouteParams,
   useTabLoader,
@@ -21,7 +20,14 @@ const StyledCreateBuilding = styled.div`
   .modal-create {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+    .create-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      .create-input {
+      }
+    }
 
     .buttons {
       display: flex;
@@ -36,19 +42,6 @@ const CreateDepartment = () => {
   const { buildingId } = useRouteParams<{ buildingId?: string }>();
   const { handleGoBack } = useNavs();
 
-  const {
-    data: departmentsTypes,
-    isLoading,
-    error: departmentTypesError,
-  } = useDepartmentsTypes();
-
-  const firstState = useMemo(() => {
-    if (departmentsTypes?.data[0].id) {
-      return departmentsTypes?.data[0].id;
-    }
-    return 1;
-  }, [departmentsTypes]);
-
   const goBack = () => {
     if (buildingId) {
       handleGoBack({ fallback: "building", props: { buildingId } });
@@ -62,7 +55,10 @@ const CreateDepartment = () => {
 
   const onError = (error: ApiError) => toast.error(error.message);
   const createMutation = useCreateDepartment({ onSuccess, onError });
-  const [typeDepartment, setTypeDepartment] = useState<number>(firstState);
+  const [bedrooms, setBedrooms] = useState<number | "">("");
+  const [bathrooms, setBathrooms] = useState<number | "">("");
+  const [baseRentPrice, setBaseRentPrice] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const handleCreateBuilding = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,37 +66,70 @@ const CreateDepartment = () => {
   };
 
   const createDebounced = useDebouncedCallback(() => {
-    if (!typeDepartment) return;
+    if (!bedrooms || !bathrooms) return;
     loader.start();
     createMutation.mutate({
       building_id: Number(buildingId),
-      department_type_id: typeDepartment,
+      status: "disponible",
+      bedrooms: Number(bedrooms),
+      bathrooms: Number(bathrooms),
+      base_rent_price: baseRentPrice || null,
+      description: description || null,
     });
     loader.complete();
   }, 500);
-
-  if (departmentTypesError) return <h1>Error loading department types</h1>;
-  if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <StyledCreateBuilding>
       <Modal isOpen onClose={goBack} className="fade-in">
         <h2>Agregar Nuevo departamento</h2>
         <form className="modal-create" onSubmit={handleCreateBuilding}>
-          <div className="inputs">
-            <label htmlFor="dep_type">Tipo de departamento</label>
-            <select
-              name="dep_type"
-              id="dep_type"
-              onChange={(e) => setTypeDepartment(Number(e.target.value))}
-              value={typeDepartment}
-            >
-              {departmentsTypes?.data.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {`${type.bedrooms} recámara(s) con ${type.bathrooms} baño(s)`}
-                </option>
-              ))}
-            </select>
+          <div className="create-inputs">
+            <div className="create-input">
+              <label htmlFor="bedrooms">Recámaras</label>
+              <input
+                type="number"
+                id="bedrooms"
+                value={bedrooms}
+                onChange={(e) =>
+                  setBedrooms(
+                    e.target.value === "" ? "" : Number(e.target.value)
+                  )
+                }
+                required
+              />
+            </div>
+            <div className="create-input">
+              <label htmlFor="bathrooms">Baños</label>
+              <input
+                type="number"
+                id="bathrooms"
+                value={bathrooms}
+                onChange={(e) =>
+                  setBathrooms(
+                    e.target.value === "" ? "" : Number(e.target.value)
+                  )
+                }
+                required
+              />
+            </div>
+            <div className="create-input">
+              <label htmlFor="baseRentPrice">Precio Base de Renta</label>
+              <input
+                type="text"
+                id="baseRentPrice"
+                value={baseRentPrice}
+                onChange={(e) => setBaseRentPrice(e.target.value)}
+              />
+            </div>
+            <div className="create-input">
+              <label htmlFor="description">Descripción</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
           </div>
           <div className="buttons">
             <button

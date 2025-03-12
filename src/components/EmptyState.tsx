@@ -3,7 +3,9 @@ import { MagnifyingVector } from "./MagnifyingVector";
 
 const StyledEmptyState = styled.div`
   text-align: center;
-  margin: 5rem 0;
+  margin: 5rem auto;
+
+  max-width: 40rem;
   h2 {
     color: ${({ theme }) => theme.colors.accentHover};
   }

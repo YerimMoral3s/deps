@@ -77,11 +77,10 @@ export const DepartmentsByBuilding: React.FC<
           selectedFilter === "Todos" ||
           department.status === selectedFilter.toLowerCase();
         const matchesBedrooms =
-          selectedBedrooms === null ||
-          department.department_type.bedrooms === selectedBedrooms;
+          selectedBedrooms === null || department.bedrooms === selectedBedrooms;
         const matchesBathrooms =
           selectedBathrooms === null ||
-          department.department_type.bathrooms === selectedBathrooms;
+          department.bathrooms === selectedBathrooms;
 
         return matchesStatus && matchesBedrooms && matchesBathrooms;
       }),

@@ -4,7 +4,6 @@ export * from "./useIsLogin";
 export * from "./useCrateBuildings";
 export * from "./useGetBuildings";
 export * from "./useNavs";
-export * from "./useDepartamentsTypes";
 export * from "./useUrlParams";
 export * from "./useCreateDepartment";
 export * from "./useInfiniteDepartments";

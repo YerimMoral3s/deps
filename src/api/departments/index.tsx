@@ -3,28 +3,24 @@ import { Building } from "../Buildings";
 
 export type CreateDepartmentData = {
   building_id: number;
-  department_type_id: number;
-  status?: "disponible" | "ocupado" | "mantenimiento";
+  status: "disponible" | "ocupado" | "mantenimiento";
+  bedrooms: number;
+  bathrooms: number;
+  base_rent_price?: string | null;
+  description?: string | null;
 };
 
 export type Department = {
   id: number;
   building_id: number;
   status: "disponible" | "ocupado" | "mantenimiento";
-  created_at: string;
-  updated_at: string;
-  department_type: DepartmentType; // Include full department type details
-  building?: Building;
-};
-
-export type DepartmentType = {
-  id: number;
   bedrooms: number;
   bathrooms: number;
-  base_rent_price: string | null; // Ensure it's a string since API returns it as a string
+  base_rent_price: string | null;
   description: string | null;
   created_at: string;
   updated_at: string;
+  building?: Building;
 };
 
 export const createDepartment = async (

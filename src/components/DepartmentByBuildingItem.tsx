@@ -70,14 +70,12 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
       </div>
       <div className="item beds">
         <p>
-          {department.department_type.bedrooms}
-          {getBedsCopy(department.department_type.bedrooms)}
+          {department.bedrooms} {getBedsCopy(department.bedrooms)}
         </p>
       </div>
       <div className="item baths">
         <p>
-          {department.department_type.bathrooms}
-          {getBathCopy(department.department_type.bathrooms)}
+          {department.bathrooms} {getBathCopy(department.bathrooms)}
         </p>
       </div>
       {/* <div className="item more">
