@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Department } from "../api/departments";
 import { GoDotFill } from "react-icons/go";
 import { useNavs } from "../hooks";
-import { getStatusColor } from "./helpers";
+import { formatPrice, getStatusColor } from "./helpers";
 
 type Props = { background: string; department: Department };
 
@@ -17,24 +17,30 @@ const StyledAdminBuildingDepartment = styled.div<{ $background: string }>`
 
   .beds,
   .baths,
-  .more {
+  .more,
+  .price {
     flex: 1;
   }
 
   .item {
     text-align: left;
 
-    .status {
-      .status-icon {
-        font-size: 1.2rem;
+    @media (max-width: 768px) {
+      p,
+      svg,
+      button {
+        font-size: 0.8rem;
       }
     }
 
     @media (max-width: 576px) {
       p,
       svg,
-      a {
-        font-size: 0.8rem;
+      button {
+        font-size: 0.7rem;
+      }
+      button {
+        padding: 5px 10px;
       }
     }
   }
@@ -78,9 +84,9 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
           {department.bathrooms} {getBathCopy(department.bathrooms)}
         </p>
       </div>
-      {/* <div className="item more">
-        <p>${formatPrice(department.department_type.base_rent_price ?? "")}</p>
-      </div> */}
+      <div className="item price">
+        <p>${formatPrice(department.base_rent_price ?? "00000")}</p>
+      </div>
       <div className="item more">
         <button onClick={navigateToDepartment}>ver mas</button>
       </div>
