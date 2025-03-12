@@ -25,8 +25,6 @@ const StyledCreateBuilding = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      .create-input {
-      }
     }
 
     .buttons {
@@ -116,7 +114,7 @@ const CreateDepartment = () => {
             <div className="create-input">
               <label htmlFor="baseRentPrice">Precio Base de Renta</label>
               <input
-                type="text"
+                type="number"
                 id="baseRentPrice"
                 value={baseRentPrice}
                 onChange={(e) => setBaseRentPrice(e.target.value)}
