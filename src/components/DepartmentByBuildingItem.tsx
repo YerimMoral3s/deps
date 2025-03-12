@@ -25,14 +25,6 @@ const StyledAdminBuildingDepartment = styled.div<{ $background: string }>`
   .item {
     text-align: left;
 
-    @media (max-width: 768px) {
-      p,
-      svg,
-      button {
-        font-size: 0.8rem;
-      }
-    }
-
     @media (max-width: 576px) {
       p,
       svg,
