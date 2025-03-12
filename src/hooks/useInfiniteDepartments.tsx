@@ -3,8 +3,11 @@ import { getDepartmentsByBuilding } from "../api/departments";
 
 export const depsQueryKeys = {
   departments: [{ scope: "departments" }] as const,
+  department: [{ scope: "department" }] as const,
   getDepartmentsByBuilding: (buildingId: string) =>
     [{ ...depsQueryKeys.departments[0], buildingId }] as const,
+  getDepartmentById: (depId: string) =>
+    [{ ...depsQueryKeys.department[0], depId }] as const,
 };
 
 export const useInfiniteDepartments = ({

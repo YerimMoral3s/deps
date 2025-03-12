@@ -1,4 +1,5 @@
 import axiosInstance, { ApiResponse, PaginatedResponse } from "../axios";
+import { Building } from "../Buildings";
 
 export type CreateDepartmentData = {
   building_id: number;
@@ -13,6 +14,7 @@ export type Department = {
   created_at: string;
   updated_at: string;
   department_type: DepartmentType; // Include full department type details
+  building?: Building;
 };
 
 export type DepartmentType = {
@@ -51,5 +53,14 @@ export const getDepartmentsByBuilding = async ({
     params: { page, per_page: 15 },
   });
 
+  return response.data;
+};
+
+export const getDepartmentById = async (
+  department_id: string
+): Promise<ApiResponse<Department>> => {
+  const response = await axiosInstance.get<ApiResponse<Department>>(
+    `/departments/id/${department_id}`
+  );
   return response.data;
 };

@@ -13,6 +13,8 @@ const AdminBuilding = lazy(() => import("../Views/Buildings/AdminBuilding"));
 const CreateDepartment = lazy(
   () => import("../Views/Buildings/CreateDepartment")
 );
+// ✅ Departments
+const Department = lazy(() => import("../Views/Buildings/Department"));
 
 // ✅ Define AppRoutesList with correct paths
 export const AppRoutesList = {
@@ -23,6 +25,7 @@ export const AppRoutesList = {
   building_add_tenant: "/buildings/:buildingId/add-tenant",
   building_admin: "/buildings/:buildingId/admin",
   building_create_department: "/buildings/:buildingId/admin/create",
+  department: "/buildings/:buildingId/department/:departmentId",
   not_founded: "*",
 } as const;
 
@@ -36,6 +39,7 @@ export type AppRoutesParams = {
   building_add_tenant: { buildingId: string | number };
   building_admin: { buildingId: string | number };
   building_create_department: { buildingId: string | number };
+  department: { buildingId: string | number; departmentId: string | number };
   not_founded: "*";
 };
 
@@ -89,10 +93,15 @@ const privateRoutes = () => [
                   },
                 ],
               },
+              {
+                path: AppRoutesList.department,
+                element: <Department />,
+              },
             ],
           },
         ],
       },
+
       // ✅ Fallback route
       { path: AppRoutesList.not_founded, element: <Navigate to="/" replace /> },
     ],

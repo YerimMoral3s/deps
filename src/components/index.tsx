@@ -11,3 +11,4 @@ export * from "./DepartmentByBuildingItem";
 export * from "./MagnifyingVector";
 export * from "./EmptyState";
 export * from "./Dots";
+export * from "./helpers";

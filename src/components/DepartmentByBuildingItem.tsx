@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Department } from "../api/departments";
 import { GoDotFill } from "react-icons/go";
+import { useNavs } from "../hooks";
+import { getStatusColor } from "./helpers";
 
 type Props = { background: string; department: Department };
 
@@ -38,19 +40,6 @@ const StyledAdminBuildingDepartment = styled.div<{ $background: string }>`
   }
 `;
 
-const getStatusColor = (status: string) => {
-  switch (status.toLowerCase()) {
-    case "disponible":
-      return "green";
-    case "ocupado":
-      return "red";
-    case "mantenimiento":
-      return "orange";
-    default:
-      return "gray";
-  }
-};
-
 const getBathCopy = (baths: number) => (baths > 1 ? "Baños" : "Baño");
 const getBedsCopy = (baths: number) =>
   baths > 1 ? "Habitaciones" : "Habitación";
@@ -59,6 +48,18 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
   background,
   department,
 }) => {
+  const nav = useNavs();
+
+  const navigateToDepartment = () => {
+    nav.navigateTo({
+      route: "department",
+      props: {
+        buildingId: department.building_id,
+        departmentId: department.id,
+      },
+    });
+  };
+
   return (
     <StyledAdminBuildingDepartment $background={background}>
       <div className="item status">
@@ -83,16 +84,8 @@ export const DepartmentByBuildingItem: React.FC<Props> = ({
         <p>${formatPrice(department.department_type.base_rent_price ?? "")}</p>
       </div> */}
       <div className="item more">
-        <a href="#">Ver más</a>
+        <button onClick={navigateToDepartment}>ver mas</button>
       </div>
     </StyledAdminBuildingDepartment>
   );
 };
-
-// function formatPrice(price: string) {
-//   let formattedPrice = Number(price).toLocaleString("en-US", {
-//     minimumFractionDigits: 2,
-//     maximumFractionDigits: 2,
-//   });
-//   return `${formattedPrice}`;
-// }
