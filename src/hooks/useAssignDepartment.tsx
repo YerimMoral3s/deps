@@ -1,37 +1,32 @@
 import {
-  UseMutationOptions,
   useMutation,
+  UseMutationOptions,
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-
 import { ApiError, ApiResponse } from "../api/axios";
-import axios from "axios";
-import {
-  createDepartment,
-  CreateDepartmentData,
-  Department,
-} from "../api/departments";
+import { assignDepartment, Department } from "../api/departments";
 import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
 import { depsQueryKeys } from "./useInfiniteDepartments";
+import axios from "axios";
 
 type mutationRes = UseMutationResult<
-  ApiResponse<Department>,
+  ApiResponse<Partial<Department>>,
   ApiError,
-  CreateDepartmentData
+  assignDepartment
 >;
 
 type mutationOptions = UseMutationOptions<
-  ApiResponse<Department>,
+  ApiResponse<Partial<Department>>,
   ApiError,
-  CreateDepartmentData
+  assignDepartment
 >;
 
-export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
+export const useAssignDepartment = (options?: mutationOptions): mutationRes => {
   const queryClient = useQueryClient();
-  return useMutation<ApiResponse<Department>, ApiError, CreateDepartmentData>({
-    mutationFn: createDepartment,
 
+  return useMutation({
+    mutationFn: assignDepartment,
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
 
@@ -40,14 +35,11 @@ export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.building_id),
+        queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.id),
       });
-
-      console.log("✅ Department created successfully:", data);
     },
-
     onError: (error, variables, context) => {
-      console.error("❌ Error creating department:", error);
+      console.error("❌ Login error:", error);
 
       let errorMessage: ApiError = {
         success: false,

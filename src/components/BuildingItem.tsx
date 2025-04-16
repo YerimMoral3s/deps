@@ -12,23 +12,28 @@ const StyledBuilding = styled.div`
   }
 `;
 
-export const BuildingItem = ({ building }: { building: Building }) => {
+export const BuildingItem = (props: {
+  building: Building;
+  onClick?: (building: Building) => void;
+}) => {
   const { navigateTo } = useNavs();
 
-  const openBuilding = useDebouncedCallback(
-    () =>
-      navigateTo({
-        route: "building",
-        props: { buildingId: building.id },
-      }),
-    100
-  );
+  const selectBuilding = useDebouncedCallback(() => {
+    if (props.onClick) {
+      props.onClick(props.building);
+      return;
+    }
+    navigateTo({
+      route: "building",
+      props: { buildingId: props.building.id },
+    });
+  }, 100);
 
   return (
     <StyledBuilding>
-      <h2>{building.name}</h2>
-      <p>Total departamentos: {building.total_units}</p>
-      <button onClick={openBuilding}>Ver mas</button>
+      <h3>{props.building.name}</h3>
+      <p>Total departamentos: {props.building.total_units}</p>
+      <button onClick={selectBuilding}>Seleccionar</button>
     </StyledBuilding>
   );
 };

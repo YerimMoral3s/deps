@@ -23,3 +23,7 @@ export const getStatusColor = (status: string) => {
       return "gray";
   }
 };
+
+export const isOnBuildingsPath = () => {
+  return window.location.pathname.includes("/buildings/");
+};

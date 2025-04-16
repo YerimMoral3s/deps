@@ -24,6 +24,13 @@ const StyledDepartment = styled.div`
         margin-left: 0.75rem;
       }
     }
+
+    .desc {
+      p {
+        color: ${({ theme }) => theme.colors.text};
+        opacity: 1;
+      }
+    }
   }
 `;
 
@@ -102,6 +109,12 @@ export default function Department() {
             <p>Baños</p>
             <h3>{department.bathrooms}</h3>
           </div>
+          {department.description !== null ? (
+            <div className="department-item desc">
+              <p style={{ opacity: "0.6" }}>Descripción</p>
+              <p>{department.description}</p>
+            </div>
+          ) : null}
         </div>
       </Container>
     </StyledDepartment>

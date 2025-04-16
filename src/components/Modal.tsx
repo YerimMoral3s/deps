@@ -26,8 +26,9 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
 
 const ModalWrapper = styled.div<{ width?: string; height?: string }>`
   background: white;
-  width: ${({ width }) => width || "600px"};
-  height: ${({ height }) => height || "auto"};
+  width: ${({ width = "600px" }) => width};
+  height: ${({ height = "auto" }) => height};
+  max-height: 90%;
   max-width: 90%;
   padding: 20px;
   border-radius: 10px;
@@ -35,7 +36,7 @@ const ModalWrapper = styled.div<{ width?: string; height?: string }>`
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
   background-color: ${({ theme }) => theme.colors.background};
-
+  overflow: auto;
   display: flex;
   flex-direction: column;
 

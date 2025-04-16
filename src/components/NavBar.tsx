@@ -54,18 +54,18 @@ export const Navbar: React.FC = () => {
         <StyledNavContent>
           <StyledNavItem>
             <NavLink
-              to="/"
-              aria-label="Home"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Home
-            </NavLink>
-            <NavLink
               to="/buildings"
               aria-label="Casas"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Casas
+            </NavLink>
+            <NavLink
+              to="/tenants"
+              aria-label="Tenants"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Inquilinos
             </NavLink>
           </StyledNavItem>
         </StyledNavContent>

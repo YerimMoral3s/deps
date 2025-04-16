@@ -3,7 +3,7 @@ import { MagnifyingVector } from "./MagnifyingVector";
 
 const StyledEmptyState = styled.div`
   text-align: center;
-  margin: 5rem auto;
+  margin: 3rem auto;
 
   max-width: 40rem;
   h2 {

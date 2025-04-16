@@ -12,3 +12,4 @@ export * from "./MagnifyingVector";
 export * from "./EmptyState";
 export * from "./Dots";
 export * from "./helpers";
+export * from "./SuccessVector";

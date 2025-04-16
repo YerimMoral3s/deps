@@ -9,10 +9,16 @@ import { ApiError, ApiResponse } from "../api/axios";
 import axios from "axios";
 import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
 
+type mutationRes = UseMutationResult<ApiResponse<Building>, ApiError, string>;
+
+type mutationOptions = UseMutationOptions<
+  ApiResponse<Building>,
+  ApiError,
+  string
+>;
+
 // ✅ Custom Hook for fetching and managing buildings
-export const useCrateBuildings = (
-  options?: UseMutationOptions<ApiResponse<Building>, ApiError, string>
-): UseMutationResult<ApiResponse<Building>, ApiError, string> => {
+export const useCrateBuildings = (options?: mutationOptions): mutationRes => {
   const queryClient = useQueryClient();
 
   // ✅ Mutation to create a new building
@@ -41,7 +47,7 @@ export const useCrateBuildings = (
       };
 
       if (axios.isAxiosError(error)) {
-        errorMessage = error.response?.data || errorMessage;
+        errorMessage = error.response?.data;
       }
 
       options?.onError?.(errorMessage, variables, context);

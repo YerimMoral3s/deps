@@ -7,30 +7,37 @@ import {
 
 import { ApiError, ApiResponse } from "../api/axios";
 import axios from "axios";
-import {
-  createDepartment,
-  CreateDepartmentData,
-  Department,
-} from "../api/departments";
+
 import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
 import { depsQueryKeys } from "./useInfiniteDepartments";
+import {
+  createTenantWithLease,
+  CreateTenantWithLease,
+  TenantWithLeaseResponse,
+} from "../api/Tenants";
 
 type mutationRes = UseMutationResult<
-  ApiResponse<Department>,
+  ApiResponse<TenantWithLeaseResponse>,
   ApiError,
-  CreateDepartmentData
+  CreateTenantWithLease
 >;
 
 type mutationOptions = UseMutationOptions<
-  ApiResponse<Department>,
+  ApiResponse<TenantWithLeaseResponse>,
   ApiError,
-  CreateDepartmentData
+  CreateTenantWithLease
 >;
 
-export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
+export const useCreateTenantWithLease = (
+  options?: mutationOptions
+): mutationRes => {
   const queryClient = useQueryClient();
-  return useMutation<ApiResponse<Department>, ApiError, CreateDepartmentData>({
-    mutationFn: createDepartment,
+  return useMutation<
+    ApiResponse<TenantWithLeaseResponse>,
+    ApiError,
+    CreateTenantWithLease
+  >({
+    mutationFn: createTenantWithLease,
 
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);

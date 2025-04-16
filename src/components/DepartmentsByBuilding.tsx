@@ -36,7 +36,7 @@ const StyledAdvancedFilters = styled.div`
 `;
 
 export const DepartmentsByBuilding: React.FC<
-  Readonly<{ buildingId: string }>
+  Readonly<{ buildingId: number }>
 > = ({ buildingId }) => {
   const {
     departments = [],

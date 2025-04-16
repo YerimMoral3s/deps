@@ -8,7 +8,7 @@ const Buildings = lazy(() => import("../Views/Buildings/Buildings"));
 const CrateBuilding = lazy(() => import("../Views/Buildings/CrateBuilding"));
 // ✅ Building
 const Building = lazy(() => import("../Views/Buildings/Building"));
-const AddNewTenant = lazy(() => import("../Views/Buildings/AddNewTenant"));
+
 const AdminBuilding = lazy(() => import("../Views/Buildings/AdminBuilding"));
 const CreateDepartment = lazy(
   () => import("../Views/Buildings/CreateDepartment")
@@ -16,16 +16,29 @@ const CreateDepartment = lazy(
 // ✅ Departments
 const Department = lazy(() => import("../Views/Buildings/Department"));
 
+// ✅ Tenants
+const Tenants = lazy(() => import("../Views/Tenants/Tenants"));
+const Tenant = lazy(() => import("../Views/Tenants/Tenant"));
+const AddNewTenant = lazy(
+  () => import("../Views/Tenants/AddnewTenant/AddNewTenant")
+);
+
 // ✅ Define AppRoutesList with correct paths
 export const AppRoutesList = {
   home: "/",
+  // buildings routes
   buildings: "/buildings",
   buildings_crate: "/buildings/crate",
   building: "/buildings/:buildingId",
   building_add_tenant: "/buildings/:buildingId/add-tenant",
   building_admin: "/buildings/:buildingId/admin",
   building_create_department: "/buildings/:buildingId/admin/create",
+  // department routes
   department: "/buildings/:buildingId/department/:departmentId",
+  // tenants routes
+  tenants: "/tenants",
+  tenants_add_tenant: "/tenants/add-tenant",
+  tenant: "/tenants/:tenantId",
   not_founded: "*",
 } as const;
 
@@ -33,13 +46,20 @@ export type AppRouteKeys = keyof typeof AppRoutesList;
 
 export type AppRoutesParams = {
   home: undefined;
+
+  // buildings routes
   buildings: undefined;
   buildings_crate: undefined;
   building: { buildingId: string | number };
   building_add_tenant: { buildingId: string | number };
   building_admin: { buildingId: string | number };
   building_create_department: { buildingId: string | number };
+  // department routes
   department: { buildingId: string | number; departmentId: string | number };
+  // tenants routes
+  tenants: undefined;
+  tenants_add_tenant: undefined;
+  tenant: { tenantId: number };
   not_founded: "*";
 };
 
@@ -101,7 +121,28 @@ const privateRoutes = () => [
           },
         ],
       },
-
+      {
+        path: AppRoutesList.tenants,
+        element: <Outlet />,
+        children: [
+          {
+            path: "",
+            element: <Tenants />,
+            children: [
+              {
+                path: AppRoutesList.tenants_add_tenant,
+                element: <AddNewTenant />,
+              },
+              ,
+            ],
+          },
+          {
+            path: AppRoutesList.tenant,
+            element: <Tenant />,
+            children: [],
+          },
+        ],
+      },
       // ✅ Fallback route
       { path: AppRoutesList.not_founded, element: <Navigate to="/" replace /> },
     ],

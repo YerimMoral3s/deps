@@ -9,9 +9,11 @@ import { useUserStore } from "../stores/useUserStore";
 import axios from "axios";
 import { ApiError } from "../api/axios";
 
-export const useLoginMutation = (
-  options?: UseMutationOptions<AuthResponse, ApiError, LoginData>
-): UseMutationResult<AuthResponse, ApiError, LoginData> => {
+type mutationOptions = UseMutationOptions<AuthResponse, ApiError, LoginData>;
+
+type mutationRes = UseMutationResult<AuthResponse, ApiError, LoginData>;
+
+export const useLoginMutation = (options?: mutationOptions): mutationRes => {
   const setUser = useUserStore((state) => state.setUser);
   const setAccessToken = useTokenStore((state) => state.setAccessToken);
   const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
@@ -36,7 +38,7 @@ export const useLoginMutation = (
       };
 
       if (axios.isAxiosError(error)) {
-        errorMessage = error.response?.data || errorMessage;
+        errorMessage = error.response?.data;
       }
 
       options?.onError?.(errorMessage, variables, context);

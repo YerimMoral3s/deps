@@ -9,3 +9,7 @@ export * from "./useCreateDepartment";
 export * from "./useInfiniteDepartments";
 export * from "./useBuilding";
 export * from "./useDepartment";
+export * from "./useCreateTenant";
+export * from "./useCreateLease";
+export * from "./useAssignDepartment";
+export * from "./useCreateTenantWithLease";

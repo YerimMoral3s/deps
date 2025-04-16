@@ -27,7 +27,7 @@ export const createDepartment = async (
   data: CreateDepartmentData
 ): Promise<ApiResponse<Department>> => {
   const response = await axiosInstance.post<ApiResponse<Department>>(
-    "/departments",
+    "departments",
     data
   );
   return response.data;
@@ -35,6 +35,7 @@ export const createDepartment = async (
 
 export type getDepartmentsByBuilding = {
   buildingId: string;
+  status: string;
   page: number;
 };
 
@@ -42,11 +43,16 @@ export type getDepartmentsByBuilding = {
 export const getDepartmentsByBuilding = async ({
   buildingId,
   page = 1,
-}: getDepartmentsByBuilding) => {
+  status,
+}: {
+  page: number;
+  buildingId?: number;
+  status?: "disponible" | "ocupado" | "mantenimiento";
+}) => {
   const response = await axiosInstance.get<
     PaginatedResponse<{ departments: Department[] }>
-  >(`/departments/${buildingId}`, {
-    params: { page, per_page: 15 },
+  >(`departments/${buildingId}`, {
+    params: { page, per_page: 15, ...(status && { status }) },
   });
 
   return response.data;
@@ -56,7 +62,21 @@ export const getDepartmentById = async (
   department_id: string
 ): Promise<ApiResponse<Department>> => {
   const response = await axiosInstance.get<ApiResponse<Department>>(
-    `/departments/id/${department_id}`
+    `departments/id/${department_id}`
+  );
+  return response.data;
+};
+
+export type assignDepartment = {
+  department_id: number;
+  tenant_id: number;
+};
+
+export const assignDepartment = async (
+  data: assignDepartment
+): Promise<ApiResponse<Partial<Department>>> => {
+  const response = await axiosInstance.get<ApiResponse<Partial<Department>>>(
+    `departments/assign/${data.department_id}/${data.tenant_id}`
   );
   return response.data;
 };

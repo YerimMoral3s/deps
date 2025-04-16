@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyledDots = styled.div`
   display: flex;
   justify-content: center;
+  margin: 2rem 0px;
   .loader {
     width: 60px;
     aspect-ratio: 4;

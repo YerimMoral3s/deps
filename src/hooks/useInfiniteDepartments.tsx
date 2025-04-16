@@ -4,23 +4,26 @@ import { getDepartmentsByBuilding } from "../api/departments";
 export const depsQueryKeys = {
   departments: [{ scope: "departments" }] as const,
   department: [{ scope: "department" }] as const,
-  getDepartmentsByBuilding: (buildingId: string) =>
-    [{ ...depsQueryKeys.departments[0], buildingId }] as const,
+  getDepartmentsByBuilding: (buildingId?: number, status?: string) =>
+    [{ ...depsQueryKeys.departments[0], buildingId, status }] as const,
   getDepartmentById: (depId: string) =>
     [{ ...depsQueryKeys.department[0], depId }] as const,
 };
 
 export const useInfiniteDepartments = ({
   buildingId,
+  status,
 }: {
-  buildingId: string;
+  buildingId?: number;
+  status?: "disponible" | "ocupado" | "mantenimiento";
 }) => {
   const query = useInfiniteQuery({
-    queryKey: depsQueryKeys.getDepartmentsByBuilding(buildingId),
+    queryKey: depsQueryKeys.getDepartmentsByBuilding(buildingId, status),
     queryFn: ({ pageParam = 1 }) =>
       getDepartmentsByBuilding({
         buildingId,
         page: pageParam,
+        status,
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
