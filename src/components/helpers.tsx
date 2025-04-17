@@ -24,6 +24,18 @@ export const getStatusColor = (status: string) => {
   }
 };
 
+export const getTenantStatusColor = (status: string) => {
+  console.log(status);
+  switch (status.toLowerCase()) {
+    case "activo":
+      return "green";
+    case "inactivo":
+      return "red";
+    default:
+      return "gray";
+  }
+};
+
 export const isOnBuildingsPath = () => {
   return window.location.pathname.includes("/buildings/");
 };

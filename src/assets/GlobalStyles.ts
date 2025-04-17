@@ -61,7 +61,7 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.background};
     border: 1px solid ${({ theme }) => theme.colors.accent};
     border-radius: 4px;
-    padding: 10px 15px;
+    padding: 5px 10px;
     transition: background-color 0.3s ease-in-out;
     &:hover {
       background-color: ${({ theme }) => theme.colors.accentHover};
@@ -81,7 +81,7 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.text};
     border: 1px solid ${({ theme }) => theme.colors.textSecondary};
     border-radius: 4px;
-    padding: 10px 15px;
+    padding: 5px 10px;
     transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 
     &:hover {

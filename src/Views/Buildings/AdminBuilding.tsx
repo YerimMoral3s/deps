@@ -65,7 +65,7 @@ export default function AdminBuilding() {
           </button>
         </div>
 
-        <DepartmentsByBuilding buildingId={urlParams.buildingId} />
+        <DepartmentsByBuilding buildingId={parseInt(urlParams.buildingId)} />
       </Container>
       <Outlet />
     </StyledAdminBuilding>
