@@ -64,6 +64,10 @@ export default function Tenants() {
     nav.navigateTo({ route: "tenant", props: { tenantId } });
   };
 
+  if (isLoading || !tenants) {
+    return <Dots />;
+  }
+
   if (!tenants || tenants.length === 0) {
     return <EmptyState copy="No se encontraron inquilinos" />;
   }

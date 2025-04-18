@@ -5,7 +5,7 @@ import { useAddNewTenantStore } from "./Store";
 
 const StyledSuccess = styled.div`
   svg {
-    width: 15rem;
+    width: 10rem;
   }
   p,
   h2,
@@ -24,7 +24,7 @@ export default function Success() {
   }
 
   return (
-    <StyledSuccess style={{ textAlign: "center" }}>
+    <StyledSuccess style={{ textAlign: "center" }} className="fade-in">
       {/* <CheckCircleIcon boxSize="60px" color="green.400" /> */}
 
       <h2 style={{ fontSize: "1.8rem" }}>Inquilino registrado correctamente</h2>

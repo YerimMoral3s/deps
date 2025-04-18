@@ -28,6 +28,7 @@ const ModalWrapper = styled.div<{ width?: string; height?: string }>`
   background: white;
   width: ${({ width = "600px" }) => width};
   height: ${({ height = "auto" }) => height};
+  min-height: 400px;
   max-height: 90%;
   max-width: 90%;
   padding: 20px;
