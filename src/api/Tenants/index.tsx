@@ -63,7 +63,9 @@ export type PreTenant = Tenant & { building: Building };
 
 type ResponsePagination = PaginatedResponse<{ tenants: PreTenant[] }>;
 
-export type GetAllTenants = {};
+export type GetAllTenants = {
+  search?: string;
+};
 type Params = GetAllTenants & {
   page: number;
 };

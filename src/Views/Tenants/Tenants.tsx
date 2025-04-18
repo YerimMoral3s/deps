@@ -2,16 +2,20 @@ import styled from "styled-components";
 import { useInfiniteTenants, useNavs } from "../../hooks";
 import { Container, Dots, getTenantStatusColor } from "../../components";
 import { Outlet } from "react-router-dom";
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmptyState from "../../components/EmptyState";
 import { GoDotFill } from "react-icons/go";
+import { useDebounce } from "use-debounce";
 
 const StyledTenants = styled.div`
-  .head {
-    display: flex;
-    justify-content: flex-end;
+  .tenants-head {
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    input {
+      width: 20rem;
+      margin-right: 1rem;
+    }
   }
 
   .list {
@@ -33,9 +37,13 @@ const StyledTenants = styled.div`
 
 export default function Tenants() {
   const nav = useNavs();
-  const { tenants, fetchNextPage, hasNextPage, isLoading } = useInfiniteTenants(
-    {}
-  );
+  const [search, setSearch] = useState("");
+
+  const debouncedSearch = useDebounce(search, 400);
+
+  const { tenants, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useInfiniteTenants({ search: debouncedSearch[0] });
+
   const observerRef = useRef(null);
 
   useEffect(() => {
@@ -64,46 +72,48 @@ export default function Tenants() {
     nav.navigateTo({ route: "tenant", props: { tenantId } });
   };
 
-  if (isLoading || !tenants) {
-    return <Dots />;
-  }
-
-  if (!tenants || tenants.length === 0) {
-    return <EmptyState copy="No se encontraron inquilinos" />;
-  }
-
   return (
     <StyledTenants className="fade-in">
       <Container>
-        <div className="head">
+        <div className="tenants-head">
+          <input
+            type="text"
+            placeholder="Buscar por nombre o teléfono..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <button onClick={navigateToAddTenant}>Agregar inquilino</button>
         </div>
-        <div className="list">
-          {tenants.map((tenant) => (
-            <div key={tenant.id} className="tenant-card">
-              <h3 className="name">
-                <GoDotFill
-                  className="status-icon"
-                  color={getTenantStatusColor(tenant.status)}
-                />
-                {tenant.first_name} {tenant.last_name}
-              </h3>
-              <p>
-                Tel: <a href={`tel:${tenant.phone}`}>{tenant.phone}</a>
-              </p>
+        {!isLoading && tenants.length === 0 ? (
+          <EmptyState copy="No se encontraron inquilinos" />
+        ) : (
+          <div className="list">
+            {tenants.map((tenant) => (
+              <div key={tenant.id} className="tenant-card">
+                <h3 className="name">
+                  <GoDotFill
+                    className="status-icon"
+                    color={getTenantStatusColor(tenant.status)}
+                  />
+                  {tenant.first_name} {tenant.last_name}
+                </h3>
+                <p>
+                  Tel: <a href={`tel:${tenant.phone}`}>{tenant.phone}</a>
+                </p>
 
-              <p>Edificio: {tenant.building.name}</p>
-              <button
-                onClick={() => navigateToTenant(tenant.id)}
-                style={{ marginTop: ".5rem" }}
-              >
-                Ver más
-              </button>
-            </div>
-          ))}
-        </div>
+                <p>Edificio: {tenant.building.name}</p>
+                <button
+                  onClick={() => navigateToTenant(tenant.id)}
+                  style={{ marginTop: ".5rem" }}
+                >
+                  Ver más
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         {hasNextPage && <div ref={observerRef} style={{ height: 1 }} />}
-        {isLoading && <Dots />}
+        {isFetching && <Dots />}
       </Container>
       <Outlet />
     </StyledTenants>

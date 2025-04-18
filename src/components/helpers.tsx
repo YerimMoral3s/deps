@@ -25,7 +25,6 @@ export const getStatusColor = (status: string) => {
 };
 
 export const getTenantStatusColor = (status: string) => {
-  console.log(status);
   switch (status.toLowerCase()) {
     case "activo":
       return "green";

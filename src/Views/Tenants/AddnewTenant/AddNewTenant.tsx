@@ -60,8 +60,6 @@ const AddNewTenant = () => {
     };
   }, [building?.isLoading]);
 
-  console.log("render", newTenantStore);
-
   return (
     <StyledCreateBuilding>
       <Modal isOpen onClose={goBack} className="fade-in">
