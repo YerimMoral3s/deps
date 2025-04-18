@@ -1,8 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { GetAllTenants, getAllTenants } from "../api/Tenants";
 
+export const QUERY_KEY_TENANTS = ["tenants"];
+
 export const depsQueryKeysTenants = {
-  tenants: [{ scope: "tenants" }] as const,
+  tenants: [{ scope: QUERY_KEY_TENANTS }] as const,
   getTenants: (filters: GetAllTenants) =>
     [{ ...depsQueryKeysTenants.tenants[0], ...filters }] as const,
 };
