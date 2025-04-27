@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useAddNewTenantStore } from "./Store";
-import { useInfiniteDepartments, useNavs } from "../../../hooks";
+import { useInfiniteDepartmentsByBuilding, useNavs } from "../../../hooks";
 import { useEffect, useRef, useCallback } from "react";
 import EmptyState from "../../../components/EmptyState";
 import {
@@ -32,7 +32,7 @@ export default function SelectDepartment() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfiniteDepartments({
+  } = useInfiniteDepartmentsByBuilding({
     buildingId: tenantStore.building?.id,
     status: "disponible",
   });

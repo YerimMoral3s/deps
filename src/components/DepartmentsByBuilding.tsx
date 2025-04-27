@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useInfiniteDepartments } from "../hooks";
+import { useInfiniteDepartmentsByBuilding } from "../hooks";
 import styled from "styled-components";
 import theme_l from "../assets/theme";
 import { DepartmentByBuildingItem } from "./DepartmentByBuildingItem";
@@ -43,7 +43,7 @@ export const DepartmentsByBuilding: React.FC<
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteDepartments({ buildingId });
+  } = useInfiniteDepartmentsByBuilding({ buildingId });
 
   const [selectedFilter, setSelectedFilter] = useState("Todos");
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | null>(null);

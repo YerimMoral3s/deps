@@ -2,7 +2,7 @@ import { Modal } from "../../components";
 import styled from "styled-components";
 
 import { useState } from "react";
-import { useCrateBuildings, useNavs, useTabLoader } from "../../hooks";
+import { useCrateBuilding, useNavs, useTabLoader } from "../../hooks";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { ApiError } from "../../api/axios";
@@ -36,7 +36,7 @@ const CreateBuilding = () => {
 
   const onLoginError = (error: ApiError) => toast.error(error.message);
 
-  const createMutation = useCrateBuildings({
+  const createMutation = useCrateBuilding({
     onSuccess: onSuccess, // ✅ Redirect after success
     onError: onLoginError,
   });

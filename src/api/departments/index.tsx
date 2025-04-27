@@ -59,7 +59,7 @@ export const getDepartmentsByBuilding = async ({
 };
 
 export const getDepartmentById = async (
-  department_id: string
+  department_id: number
 ): Promise<ApiResponse<Department>> => {
   const response = await axiosInstance.get<ApiResponse<Department>>(
     `departments/id/${department_id}`

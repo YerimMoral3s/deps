@@ -19,6 +19,7 @@ type mutationOptions = UseMutationOptions<
   Partial<Lease>
 >;
 
+// non used
 export const useCreateLease = (options?: mutationOptions): mutationRes => {
   return useMutation<ApiResponse<Lease>, ApiError, Partial<Lease>>({
     mutationFn: createLease,

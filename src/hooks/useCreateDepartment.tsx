@@ -2,7 +2,6 @@ import {
   UseMutationOptions,
   useMutation,
   UseMutationResult,
-  useQueryClient,
 } from "@tanstack/react-query";
 
 import { ApiError, ApiResponse } from "../api/axios";
@@ -12,8 +11,8 @@ import {
   CreateDepartmentData,
   Department,
 } from "../api/departments";
-import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
-import { depsQueryKeys } from "./useInfiniteDepartments";
+import { useInvalidateBuildingById } from "./useBuildingById";
+import { useInvalidateInfiniteDepartmentsByBuilding } from "./useInfiniteDepartmentsByBuilding";
 
 type mutationRes = UseMutationResult<
   ApiResponse<Department>,
@@ -28,20 +27,19 @@ type mutationOptions = UseMutationOptions<
 >;
 
 export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
-  const queryClient = useQueryClient();
+  const { invalidateBuildingById } = useInvalidateBuildingById();
+  const { invalidateInfiniteDepartmentsByBuilding } =
+    useInvalidateInfiniteDepartmentsByBuilding();
+
   return useMutation<ApiResponse<Department>, ApiError, CreateDepartmentData>({
     mutationFn: createDepartment,
 
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
-
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEY_BUILDINGS,
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.building_id),
-      });
+      // invalidate info by only single building
+      invalidateBuildingById(data.data.building_id);
+      // invalidate all departments from that building
+      invalidateInfiniteDepartmentsByBuilding(data.data.building_id);
 
       console.log("✅ Department created successfully:", data);
     },

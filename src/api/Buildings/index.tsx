@@ -35,7 +35,7 @@ export const getAllBuildings = async (): Promise<ApiResponse<Building[]>> => {
 export type GetBuildingResponse = ApiResponse<Building>;
 
 // ✅ API function to get a building by ID
-export const getBuildingById = async (buildingId: string) => {
+export const getBuildingById = async (buildingId?: number) => {
   const response = await axiosInstance.get<GetBuildingResponse>(
     `${path}/${buildingId}`
   );

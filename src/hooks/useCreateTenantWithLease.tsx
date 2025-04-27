@@ -2,19 +2,19 @@ import {
   UseMutationOptions,
   useMutation,
   UseMutationResult,
-  useQueryClient,
 } from "@tanstack/react-query";
 
 import { ApiError, ApiResponse } from "../api/axios";
 import axios from "axios";
 
-import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
-import { depsQueryKeys } from "./useInfiniteDepartments";
 import {
   createTenantWithLease,
   CreateTenantWithLease,
   TenantWithLeaseResponse,
 } from "../api/Tenants";
+import { useInvalidateBuildingById } from "./useBuildingById";
+import { useInvalidateInfiniteDepartmentsByBuilding } from "./useInfiniteDepartmentsByBuilding";
+import { useInvalidateDepartmentById } from "./useDepartment";
 
 type mutationRes = UseMutationResult<
   ApiResponse<TenantWithLeaseResponse>,
@@ -31,7 +31,11 @@ type mutationOptions = UseMutationOptions<
 export const useCreateTenantWithLease = (
   options?: mutationOptions
 ): mutationRes => {
-  const queryClient = useQueryClient();
+  const { invalidateBuildingById } = useInvalidateBuildingById();
+  const { invalidateInfiniteDepartmentsByBuilding } =
+    useInvalidateInfiniteDepartmentsByBuilding();
+  const { invalidateDepartmentById } = useInvalidateDepartmentById();
+
   return useMutation<
     ApiResponse<TenantWithLeaseResponse>,
     ApiError,
@@ -42,13 +46,12 @@ export const useCreateTenantWithLease = (
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
 
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEY_BUILDINGS,
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.building_id),
-      });
+      // invalidate info by only single building
+      invalidateBuildingById(data.data.building_id);
+      // invalidate all departments from that building
+      invalidateInfiniteDepartmentsByBuilding(data.data.building_id);
+      // invalidate department by id
+      invalidateDepartmentById(data.data.building_id);
 
       console.log("✅ Department created successfully:", data);
     },

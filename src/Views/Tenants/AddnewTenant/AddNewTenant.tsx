@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useEffect } from "react";
 import { useAddNewTenantStore } from "./Store";
-import { useBuilding, useNavs, useRouteParams } from "../../../hooks";
+import { useBuildingById, useNavs, useRouteParams } from "../../../hooks";
 import SelectBuilding from "./SelectBuilding";
 import SelectDepartment from "./SelectDepartment";
 import NewTenant from "./NewTenant";
@@ -36,7 +36,9 @@ const AddNewTenant = () => {
   const newTenantStore = useAddNewTenantStore();
   const { buildingId } = useRouteParams<{ buildingId?: string }>();
   const { handleGoBack } = useNavs();
-  const building = useBuilding(buildingId);
+  const building = useBuildingById(
+    buildingId ? parseInt(buildingId) : undefined
+  );
 
   const goBack = () => {
     if (buildingId) {

@@ -2,12 +2,11 @@ import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-  useQueryClient,
 } from "@tanstack/react-query";
 import { ApiError, ApiResponse } from "../api/axios";
 import { assignDepartment, Department } from "../api/departments";
-import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
-import { depsQueryKeys } from "./useInfiniteDepartments";
+// import { QUERY_KEY_BUILDINGS } from "./useGetBuildings";
+// import { depsQueryKeys } from "./useInfiniteDepartments";
 import axios from "axios";
 
 type mutationRes = UseMutationResult<
@@ -21,22 +20,22 @@ type mutationOptions = UseMutationOptions<
   ApiError,
   assignDepartment
 >;
-
+// NON USED
 export const useAssignDepartment = (options?: mutationOptions): mutationRes => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: assignDepartment,
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
 
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEY_BUILDINGS,
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: QUERY_KEY_BUILDINGS,
+      // });
 
-      queryClient.invalidateQueries({
-        queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.id),
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: depsQueryKeys.getDepartmentsByBuilding(data.data.id),
+      // });
     },
     onError: (error, variables, context) => {
       console.error("❌ Login error:", error);

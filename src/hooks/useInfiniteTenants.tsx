@@ -23,6 +23,7 @@ export const useInfiniteTenants = (params: GetAllTenants) => {
       const totalPages = lastPage.data.pagination.total_pages;
       return currentPage < totalPages ? currentPage + 1 : undefined;
     },
+    staleTime: Infinity,
   });
 
   // ✅ Flat list of tenants from all pages
