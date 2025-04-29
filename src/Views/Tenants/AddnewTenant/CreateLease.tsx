@@ -49,7 +49,7 @@ export default function CreateLease() {
   };
 
   return (
-    <StyledCreateLease>
+    <StyledCreateLease className="fade-in">
       <div className="head-lease">
         <p>Completa la siguiente información para la creación del contrato</p>
       </div>

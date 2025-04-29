@@ -51,7 +51,7 @@ export default function NewTenant() {
   };
 
   return (
-    <StyledNewTenant>
+    <StyledNewTenant className="fade-in">
       <div className="head-tenant">
         <p>Completa la siguiente información del inquilino</p>
       </div>

@@ -86,7 +86,7 @@ export default function Confirmation() {
   }, 500);
 
   return (
-    <StyledConfirmation className="confirmation">
+    <StyledConfirmation className="confirmation fade-in">
       <h3>Confirmación de datos</h3>
       <ReConfirmationModal
         isOpen={confirmModalIsOpen}
