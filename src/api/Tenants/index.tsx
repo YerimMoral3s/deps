@@ -45,6 +45,7 @@ export type TenantWithLeaseResponse = {
   tenant_id: number;
   lease_id: number;
   building_id: number;
+  department_id: number;
 };
 
 export const createTenantWithLease = async (data: CreateTenantWithLease) => {

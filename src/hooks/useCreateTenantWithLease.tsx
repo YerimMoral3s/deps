@@ -15,6 +15,7 @@ import {
 import { useInvalidateBuildingById } from "./useBuildingById";
 import { useInvalidateInfiniteDepartmentsByBuilding } from "./useInfiniteDepartmentsByBuilding";
 import { useInvalidateDepartmentById } from "./useDepartment";
+import { useInvalidateInfiniteTenants } from "./useInfiniteTenants";
 
 type mutationRes = UseMutationResult<
   ApiResponse<TenantWithLeaseResponse>,
@@ -36,6 +37,8 @@ export const useCreateTenantWithLease = (
     useInvalidateInfiniteDepartmentsByBuilding();
   const { invalidateDepartmentById } = useInvalidateDepartmentById();
 
+  const { invalidateInfiniteTenants } = useInvalidateInfiniteTenants();
+
   return useMutation<
     ApiResponse<TenantWithLeaseResponse>,
     ApiError,
@@ -48,11 +51,22 @@ export const useCreateTenantWithLease = (
 
       // invalidate info by only single building
       invalidateBuildingById(data.data.building_id);
-      // invalidate all departments from that building
+      // invalidate all departments available from that building
+      invalidateInfiniteDepartmentsByBuilding(
+        data.data.building_id,
+        "disponible"
+      );
+      // invalidate all departments
       invalidateInfiniteDepartmentsByBuilding(data.data.building_id);
+      console.log(
+        "aca useCreateTenantWithLease department_id",
+        data.data.department_id
+      );
       // invalidate department by id
-      invalidateDepartmentById(data.data.building_id);
+      invalidateDepartmentById(data.data.department_id);
 
+      // invalidate all tenants
+      invalidateInfiniteTenants();
       console.log("✅ Department created successfully:", data);
     },
 

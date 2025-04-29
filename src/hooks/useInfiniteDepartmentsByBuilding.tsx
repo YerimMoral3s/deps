@@ -7,17 +7,12 @@ type status = "disponible" | "ocupado" | "mantenimiento";
 export const INFINITE_DEPARTMENTS_SCOPE = "departments_by_building";
 
 export const departmentsByBuildingQueryKeys = {
-  infiniteDepartments: [{ scope: INFINITE_DEPARTMENTS_SCOPE }] as const,
-  getInfiniteDepartments: (buildingId?: number, status?: status) =>
-    [
-      {
-        ...departmentsByBuildingQueryKeys.infiniteDepartments[0],
-        buildingId,
-        status,
-      },
-    ] as const,
-};
+  infiniteDepartments: [INFINITE_DEPARTMENTS_SCOPE] as const,
 
+  getInfiniteDepartments: (buildingId?: number, status?: status) => {
+    return [INFINITE_DEPARTMENTS_SCOPE, buildingId, status] as const;
+  },
+};
 // Helper to invalidate all departments-related queries
 export const useInvalidateInfiniteDepartmentsByBuilding = () => {
   const queryClient = useQueryClient();

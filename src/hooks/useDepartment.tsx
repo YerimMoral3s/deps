@@ -6,8 +6,9 @@ export const DEPARTMENT_KEY = "department_by_id";
 
 export const departmentQueryKeys = {
   department: [DEPARTMENT_KEY] as const,
-  getDepartmentById: (departmentId: number) =>
-    [DEPARTMENT_KEY, departmentId] as const,
+  getDepartmentById: (departmentId: number) => {
+    return [DEPARTMENT_KEY, departmentId] as const;
+  },
 };
 
 export const useDepartment = (department_id?: number) => {
@@ -18,6 +19,7 @@ export const useDepartment = (department_id?: number) => {
     queryFn: () => getDepartmentById(department_id),
     enabled: !!department_id,
     retry: false,
+    staleTime: 1000 * 60 * 60, // 1hr,
   });
 };
 

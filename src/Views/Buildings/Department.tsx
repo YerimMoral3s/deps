@@ -41,7 +41,9 @@ export default function Department() {
     departmentId?: string;
   }>();
 
-  const departmentQuery = useDepartment(departmentId);
+  const departmentQuery = useDepartment(
+    departmentId ? parseInt(departmentId) : undefined
+  );
 
   // Verifica si existen los parámetros necesarios y redirige si falta alguno.
   useEffect(() => {

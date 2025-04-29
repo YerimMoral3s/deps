@@ -13,6 +13,7 @@ import {
 } from "../api/departments";
 import { useInvalidateBuildingById } from "./useBuildingById";
 import { useInvalidateInfiniteDepartmentsByBuilding } from "./useInfiniteDepartmentsByBuilding";
+import { useInvalidateAllBuildings } from "./useGetBuildings";
 
 type mutationRes = UseMutationResult<
   ApiResponse<Department>,
@@ -27,6 +28,7 @@ type mutationOptions = UseMutationOptions<
 >;
 
 export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
+  const { invalidateBuildings } = useInvalidateAllBuildings();
   const { invalidateBuildingById } = useInvalidateBuildingById();
   const { invalidateInfiniteDepartmentsByBuilding } =
     useInvalidateInfiniteDepartmentsByBuilding();
@@ -36,9 +38,15 @@ export const useCreateDepartment = (options?: mutationOptions): mutationRes => {
 
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context);
+      // invalidate all buildings
+      invalidateBuildings();
       // invalidate info by only single building
       invalidateBuildingById(data.data.building_id);
       // invalidate all departments from that building
+      invalidateInfiniteDepartmentsByBuilding(
+        data.data.building_id,
+        "disponible"
+      );
       invalidateInfiniteDepartmentsByBuilding(data.data.building_id);
 
       console.log("✅ Department created successfully:", data);

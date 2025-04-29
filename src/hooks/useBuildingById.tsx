@@ -5,7 +5,9 @@ const BUILDING_SCOPE = "building_by_id";
 
 const buildingQueryKeys = {
   building: [BUILDING_SCOPE] as const,
-  getBuilding: (buildingId: number) => [BUILDING_SCOPE, buildingId] as const,
+  getBuilding: (buildingId: number) => {
+    return [BUILDING_SCOPE, buildingId] as const;
+  },
 };
 
 // This hook only fetches a single building by id
