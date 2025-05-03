@@ -8,7 +8,12 @@ import {
   getTenantStatusColor,
 } from "../../components";
 import { FaChevronLeft } from "react-icons/fa";
-import { useNavs, useRouteParams, useTenantById } from "../../hooks";
+import {
+  useDepartmentByTenantId,
+  useNavs,
+  useRouteParams,
+  useTenantById,
+} from "../../hooks";
 import { useEffect } from "react";
 import LoaderView from "../../components/LoaderView";
 import { GoDotFill } from "react-icons/go";
@@ -16,10 +21,12 @@ import { useTenantLease } from "../../hooks/useTenantLease";
 
 const StyledTenant = styled.div`
   .tenant,
-  .lease {
+  .lease,
+  .department {
     margin-top: 0.75rem;
     .tenant-item,
-    .lease-item {
+    .lease-item,
+    .department-item {
       margin-top: 1rem;
       p {
         color: ${({ theme }) => theme.colors.textSecondary};
@@ -49,8 +56,12 @@ export default function Tenant() {
   const leaseQuery = useTenantLease(
     urlParams.tenantId ? parseInt(urlParams.tenantId) : undefined
   );
+  const departmentQuery = useDepartmentByTenantId(
+    urlParams.tenantId ? parseInt(urlParams.tenantId) : undefined
+  );
 
   const lease = leaseQuery?.data?.data;
+  const department = departmentQuery?.data?.data;
 
   useEffect(() => {
     if (!urlParams?.tenantId) {
@@ -70,7 +81,6 @@ export default function Tenant() {
     const today = new Date();
     const endDate = new Date(endDateStr);
 
-    // Normaliza fechas al primer día del mes para evitar errores por días
     today.setDate(1);
     endDate.setDate(1);
 
@@ -181,6 +191,24 @@ export default function Tenant() {
                 <h3>{getRemainingMonthsFromToday(lease.end_date)}</h3>
               </div>
             )}
+          </div>
+        ) : null}
+        {departmentQuery?.isLoading ? (
+          <Dots />
+        ) : department ? (
+          <div className="department">
+            <div className="department-item building">
+              <p>Edificio</p>
+              <h3>{department?.building?.name}</h3>
+            </div>
+            <div className="department-item bathrooms">
+              <p>Numero de Baños</p>
+              <h3>{department?.bathrooms}</h3>
+            </div>
+            <div className="department-item bedrooms">
+              <p>Numero de cuartos</p>
+              <h3>{department?.bedrooms}</h3>
+            </div>
           </div>
         ) : null}
       </Container>

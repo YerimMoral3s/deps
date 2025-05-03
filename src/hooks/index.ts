@@ -16,3 +16,4 @@ export * from "./useCreateTenantWithLease";
 export * from "./useInfiniteTenants";
 export * from "./useLeaseTenant";
 export * from "./useLeaseTenant";
+export * from "./useDepartmentByTenantId";
