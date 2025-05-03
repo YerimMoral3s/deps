@@ -27,3 +27,16 @@ export const createLease = async (leaseData: Partial<Lease>) => {
     throw error;
   }
 };
+
+export const getTenantLeaseById = async (tenant: number) => {
+  try {
+    const response = await axiosInstance.get<ApiResponse<Lease>>(
+      `leases/${tenant}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error creating tenant:", error);
+    throw error;
+  }
+};

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { useInfiniteTenants, useNavs } from "../../hooks";
-import { Container, Dots, getTenantStatusColor } from "../../components";
+import {
+  capitalizeWords,
+  Container,
+  Dots,
+  getTenantStatusColor,
+} from "../../components";
 import { Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import EmptyState from "../../components/EmptyState";
@@ -95,7 +100,7 @@ export default function Tenants() {
                     className="status-icon"
                     color={getTenantStatusColor(tenant.status)}
                   />
-                  {tenant.first_name} {tenant.last_name}
+                  {capitalizeWords(`${tenant.first_name} ${tenant.last_name}`)}
                 </h3>
                 <p>
                   Tel: <a href={`tel:${tenant.phone}`}>{tenant.phone}</a>

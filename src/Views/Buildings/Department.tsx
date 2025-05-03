@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {
-  capitalizeFirstLetter,
+  capitalizeWords,
   Container,
   Dots,
   formatPrice,
@@ -93,7 +93,7 @@ export default function Department() {
             <p>Estado</p>
 
             <h3>
-              {capitalizeFirstLetter(department.status)}
+              {capitalizeWords(department.status)}
               <GoDotFill color={getStatusColor(department.status)} />
             </h3>
           </div>

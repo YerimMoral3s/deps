@@ -81,3 +81,14 @@ export const getAllTenants = async (
 
   return response.data;
 };
+
+// ✅ Fetch tenants with pagination
+export const getTenantById = async (
+  tenant_id: number
+): Promise<ApiResponse<Tenant>> => {
+  const response = await axiosInstance.get<ApiResponse<Tenant>>(
+    `tenants/${tenant_id}`
+  );
+
+  return response.data;
+};

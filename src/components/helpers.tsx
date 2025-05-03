@@ -6,11 +6,13 @@ export function formatPrice(price: string) {
   return `${formattedPrice}`;
 }
 
-export const capitalizeFirstLetter = (word: string): string => {
-  if (!word) return "";
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+export const capitalizeWords = (text?: string): string => {
+  if (!text) return "";
+  return text
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 };
-
 export const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
     case "disponible":
@@ -37,4 +39,9 @@ export const getTenantStatusColor = (status: string) => {
 
 export const isOnBuildingsPath = () => {
   return window.location.pathname.includes("/buildings/");
+};
+
+export const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  return new Date(dateStr).toLocaleDateString("es-MX");
 };
