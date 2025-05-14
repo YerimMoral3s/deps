@@ -18,16 +18,19 @@ import { useEffect } from "react";
 import LoaderView from "../../components/LoaderView";
 import { GoDotFill } from "react-icons/go";
 import { useTenantLease } from "../../hooks/useTenantLease";
+import { useGetTenantPayments } from "../../hooks/useGetTenantPayments";
 
 const StyledTenant = styled.div`
-  .tenant,
-  .lease,
-  .department {
+  .tenant {
     margin-top: 0.75rem;
-    .tenant-item,
-    .lease-item,
-    .department-item {
-      margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .tenant-item {
+      display: flex;
+      flex-direction: column;
+
       p {
         color: ${({ theme }) => theme.colors.textSecondary};
         opacity: 0.6;
@@ -36,11 +39,51 @@ const StyledTenant = styled.div`
         margin-left: 0.75rem;
       }
     }
+  }
 
-    .desc {
+  .lease {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+
+      .lease-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0rem;
+
+        p {
+          color: ${({ theme }) => theme.colors.textSecondary};
+          opacity: 0.6;
+        }
+        h3 {
+          margin-left: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .department {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .department-item {
+      display: flex;
+      flex-direction: column;
+
       p {
-        color: ${({ theme }) => theme.colors.text};
-        opacity: 1;
+        color: ${({ theme }) => theme.colors.textSecondary};
+        opacity: 0.6;
+      }
+      h3 {
+        margin-left: 0.75rem;
       }
     }
   }
@@ -57,6 +100,9 @@ export default function Tenant() {
     urlParams.tenantId ? parseInt(urlParams.tenantId) : undefined
   );
   const departmentQuery = useDepartmentByTenantId(
+    urlParams.tenantId ? parseInt(urlParams.tenantId) : undefined
+  );
+  const paymentsQuery = useGetTenantPayments(
     urlParams.tenantId ? parseInt(urlParams.tenantId) : undefined
   );
 
@@ -136,63 +182,68 @@ export default function Tenant() {
           <Dots />
         ) : lease ? (
           <div className="lease">
-            <div className="lease-item status">
-              <p>Estatus del contrato</p>
-              <h3>
-                {lease?.status}
+            <div>
+              <div className="lease-item status">
+                <p>Estatus del contrato</p>
+                <h3>
+                  {lease?.status}
 
-                <GoDotFill
-                  className="status-icon"
-                  color={getTenantStatusColor(lease.status)}
-                />
-              </h3>
-            </div>
-            <div className="lease-item type">
-              <p>Tipo de contrato</p>
-              <h3>{lease?.type}</h3>
-            </div>
-
-            <div className="lease-item payment-day">
-              <p>Día de cobro</p>
-              <h3>{lease?.payment_day}</h3>
+                  <GoDotFill
+                    className="status-icon"
+                    color={getTenantStatusColor(lease.status)}
+                  />
+                </h3>
+              </div>
+              <div className="lease-item type">
+                <p>Tipo de contrato</p>
+                <h3>{lease?.type}</h3>
+              </div>
             </div>
 
-            {lease?.monthly_rent && (
-              <div className="lease-item monthly-rent">
-                <p>Renta mensual</p>
-                <h3>${formatPrice(lease.monthly_rent)}</h3>
+            <div>
+              <div className="lease-item payment-day">
+                <p>Día de cobro</p>
+                <h3>{lease?.payment_day}</h3>
               </div>
-            )}
+              {lease?.monthly_rent && (
+                <div className="lease-item monthly-rent">
+                  <p>Renta mensual</p>
+                  <h3>${formatPrice(lease.monthly_rent)}</h3>
+                </div>
+              )}
 
-            {lease?.upfront_payment && (
-              <div className="lease-item upfront-payment">
-                <p>Anticipo</p>
-                <h3>${formatPrice(lease.upfront_payment)}</h3>
-              </div>
-            )}
+              {lease?.upfront_payment && (
+                <div className="lease-item upfront-payment">
+                  <p>Anticipo</p>
+                  <h3>${formatPrice(lease.upfront_payment)}</h3>
+                </div>
+              )}
+            </div>
 
-            {lease?.start_date && (
-              <div className="lease-item start-date">
-                <p>Fecha de inicio</p>
-                <h3>{formatDate(lease.start_date)}</h3>
-              </div>
-            )}
+            <div>
+              {lease?.start_date && (
+                <div className="lease-item start-date">
+                  <p>Fecha de inicio</p>
+                  <h3>{formatDate(lease.start_date)}</h3>
+                </div>
+              )}
+              {lease?.end_date && (
+                <div className="lease-item end-date">
+                  <p>Fecha de finalización</p>
+                  <h3>{formatDate(lease.end_date)}</h3>
+                </div>
+              )}
 
-            {lease?.end_date && (
-              <div className="lease-item end-date">
-                <p>Fecha de finalización</p>
-                <h3>{formatDate(lease.end_date)}</h3>
-              </div>
-            )}
-
-            {lease?.start_date && lease?.end_date && (
-              <div className="lease-item remaining-months">
-                <p>Meses restantes</p>
-                <h3>{getRemainingMonthsFromToday(lease.end_date)}</h3>
-              </div>
-            )}
+              {lease?.start_date && lease?.end_date && (
+                <div className="lease-item remaining-months">
+                  <p>Meses restantes</p>
+                  <h3>{getRemainingMonthsFromToday(lease.end_date)}</h3>
+                </div>
+              )}
+            </div>
           </div>
         ) : null}
+
         {departmentQuery?.isLoading ? (
           <Dots />
         ) : department ? (

@@ -17,13 +17,16 @@ export const BuildingsList = () => {
     return <Dots />;
   }
 
-  if (!data?.data || data.data.length === 0) {
+  if (!data?.data) {
+    return <EmptyState copy="No se encontraron edificios" />;
+  }
+  if (data?.data.length === 0) {
     return <EmptyState copy="No se encontraron edificios" />;
   }
 
   return (
     <StyledBuildingsList>
-      {data.data.map((building) => (
+      {data?.data?.map((building) => (
         <BuildingItem key={`building_key_${building.id}`} building={building} />
       ))}
     </StyledBuildingsList>
