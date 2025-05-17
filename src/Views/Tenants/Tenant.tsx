@@ -19,8 +19,14 @@ import LoaderView from "../../components/LoaderView";
 import { GoDotFill } from "react-icons/go";
 import { useTenantLease } from "../../hooks/useTenantLease";
 import { useGetTenantPayments } from "../../hooks/useGetTenantPayments";
+import PaymentItem from "../../components/PaymentItem";
 
 const StyledTenant = styled.div`
+  h2 {
+    margin-top: 0.75rem;
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+
   .tenant {
     margin-top: 0.75rem;
     display: flex;
@@ -108,6 +114,7 @@ export default function Tenant() {
 
   const lease = leaseQuery?.data?.data;
   const department = departmentQuery?.data?.data;
+  const payments = paymentsQuery?.data?.data;
 
   useEffect(() => {
     if (!urlParams?.tenantId) {
@@ -261,6 +268,16 @@ export default function Tenant() {
               <h3>{department?.bedrooms}</h3>
             </div>
           </div>
+        ) : null}
+        {paymentsQuery?.isLoading ? (
+          <Dots />
+        ) : payments && payments?.length > 0 ? (
+          <>
+            <h2>Rentas: </h2>
+            {payments.map((payment, idx) => (
+              <PaymentItem payment={payment} key={payment.id + "_" + idx} />
+            ))}
+          </>
         ) : null}
       </Container>
     </StyledTenant>

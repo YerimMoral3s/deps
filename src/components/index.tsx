@@ -13,3 +13,4 @@ export * from "./EmptyState";
 export * from "./Dots";
 export * from "./helpers";
 export * from "./SuccessVector";
+export * from "./PaymentItem";
