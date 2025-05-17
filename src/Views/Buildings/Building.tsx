@@ -59,10 +59,7 @@ export default function Building() {
   }
 
   return (
-    <StyledBuilding
-      className="fade-in"
-      onClick={() => setIsMenuOpen(!isMenuOpen)}
-    >
+    <StyledBuilding className="fade-in">
       <Container>
         <div className="head">
           <button className="secondary-button" onClick={goBack}>
