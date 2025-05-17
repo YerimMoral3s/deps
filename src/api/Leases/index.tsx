@@ -15,13 +15,15 @@ export type Lease = {
   updated_at: string;
 };
 
+export type PaymentStatus = "pendiente" | "pagado" | "vencido" | "cancelado";
+
 export type Payment = {
   id: number;
   lease_id: number;
   due_date: string; // ISO date string
   payment_date: string | null; // será string porque llega como fecha, null si no existe
   amount: string; // por ser DECIMAL(10,2), mejor como string para evitar pérdida de precisión
-  status: "pendiente" | "pagado" | "vencido" | "cancelado";
+  status: PaymentStatus;
   payment_method?: "efectivo" | "transferencia" | "tarjeta" | null;
   type?: "rent" | "deposit" | null;
   reference_number?: string | null;
@@ -65,6 +67,29 @@ export const getPaymentsTenantById = async (tenant: number) => {
     return response.data;
   } catch (error) {
     console.error("Error creating tenant:", error);
+    throw error;
+  }
+};
+
+export type PaymentStatusResponse = { id: number; status: PaymentStatus };
+
+export type UpdatePaymentStatus = {
+  payment_id: number;
+  status: PaymentStatus;
+};
+
+export const postUpdatePaymentStatus = async ({
+  payment_id,
+  status,
+}: UpdatePaymentStatus) => {
+  try {
+    const response = await axiosInstance.post<
+      ApiResponse<PaymentStatusResponse>
+    >(`leases/payments/${payment_id}/status`, { status });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating payment status:", error);
     throw error;
   }
 };

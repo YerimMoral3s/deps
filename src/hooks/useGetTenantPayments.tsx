@@ -5,7 +5,7 @@ import { getPaymentsTenantById, Payment } from "../api/Leases";
 
 export const QUERY_KEY_PAYMENTS_TENANT_ID = ["QUERY_KEY_PAYMENTS_TENANT_ID"];
 
-const tenantQueryKeys = {
+export const paymentsQueryKeys = {
   payments: [QUERY_KEY_PAYMENTS_TENANT_ID] as const,
   getPayments: (tenantId: number) => {
     return [QUERY_KEY_PAYMENTS_TENANT_ID, tenantId] as const;
@@ -26,7 +26,7 @@ export const useInvalidateTenantPayments = () => {
 export const useGetTenantPayments = (tenant_id?: number) => {
   if (!tenant_id) return null;
   return useQuery<ApiResponse<Payment[]>, ApiError>({
-    queryKey: tenantQueryKeys.getPayments(tenant_id), // ✅ Unique key for caching
+    queryKey: paymentsQueryKeys.getPayments(tenant_id), // ✅ Unique key for caching
     queryFn: () => getPaymentsTenantById(tenant_id),
     enabled: !!tenant_id,
     retry: false,

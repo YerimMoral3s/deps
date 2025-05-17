@@ -17,3 +17,4 @@ export * from "./useInfiniteTenants";
 export * from "./useLeaseTenant";
 export * from "./useLeaseTenant";
 export * from "./useDepartmentByTenantId";
+export * from "./useUpdatePaymentStatus";

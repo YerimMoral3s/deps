@@ -28,10 +28,11 @@ const StyledTenant = styled.div`
   }
   h1 {
     color: ${({ theme }) => theme.colors.textSecondary};
+    margin-bottom: 0;
   }
 
   .tenant {
-    margin-top: 2rem;
+    margin-top: 3rem;
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -51,7 +52,7 @@ const StyledTenant = styled.div`
   }
 
   .lease {
-    margin-top: 2rem;
+    margin-top: 3rem;
     border-top: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
     border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
     .items {
@@ -75,7 +76,7 @@ const StyledTenant = styled.div`
   }
 
   .department {
-    margin-top: 2rem;
+    margin-top: 3rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
 
     .items {
@@ -97,7 +98,10 @@ const StyledTenant = styled.div`
   }
 
   .payments {
-    margin-top: 2rem;
+    margin-top: 3rem;
+    h2 {
+      margin-top: 3rem;
+    }
   }
 `;
 
@@ -291,13 +295,17 @@ export default function Tenant() {
 
         {paymentsQuery?.isLoading ? (
           <Dots />
-        ) : payments && payments.length > 0 ? (
+        ) : payments && payments.length > 0 && tenantQuery?.data?.data.id ? (
           <div className="payments">
             {vencidos.length > 0 && (
               <>
                 <h2>Pagos vencidos</h2>
                 {vencidos.map((p, i) => (
-                  <PaymentItem payment={p} key={`vencido-${p.id}-${i}`} />
+                  <PaymentItem
+                    payment={p}
+                    key={`vencido-${p.id}-${i}`}
+                    tenant_id={tenantQuery?.data?.data.id}
+                  />
                 ))}
               </>
             )}
@@ -306,7 +314,11 @@ export default function Tenant() {
               <>
                 <h2>Próximos pagos</h2>
                 {pendientes.map((p, i) => (
-                  <PaymentItem payment={p} key={`pendiente-${p.id}-${i}`} />
+                  <PaymentItem
+                    payment={p}
+                    key={`pendiente-${p.id}-${i}`}
+                    tenant_id={tenantQuery?.data?.data.id}
+                  />
                 ))}
               </>
             )}
@@ -315,7 +327,11 @@ export default function Tenant() {
               <>
                 <h2>Pagos realizados</h2>
                 {pagados.map((p, i) => (
-                  <PaymentItem payment={p} key={`pagado-${p.id}-${i}`} />
+                  <PaymentItem
+                    payment={p}
+                    key={`pagado-${p.id}-${i}`}
+                    tenant_id={tenantQuery?.data?.data.id}
+                  />
                 ))}
               </>
             )}
@@ -323,7 +339,11 @@ export default function Tenant() {
               <>
                 <h2>Pagos realizados</h2>
                 {cancelados.map((p, i) => (
-                  <PaymentItem payment={p} key={`cancelado-${p.id}-${i}`} />
+                  <PaymentItem
+                    payment={p}
+                    key={`cancelado-${p.id}-${i}`}
+                    tenant_id={tenantQuery?.data?.data.id}
+                  />
                 ))}
               </>
             )}
