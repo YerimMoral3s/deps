@@ -133,13 +133,11 @@ const privateRoutes = () => [
                 path: AppRoutesList.tenants_add_tenant,
                 element: <AddNewTenant />,
               },
-              ,
             ],
           },
           {
             path: AppRoutesList.tenant,
             element: <Tenant />,
-            children: [],
           },
         ],
       },
