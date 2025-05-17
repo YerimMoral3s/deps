@@ -24,11 +24,14 @@ import PaymentItem from "../../components/PaymentItem";
 const StyledTenant = styled.div`
   h2 {
     margin-top: 0.75rem;
+    color: ${({ theme }) => theme.colors.accentHover};
+  }
+  h1 {
     color: ${({ theme }) => theme.colors.textSecondary};
   }
 
   .tenant {
-    margin-top: 0.75rem;
+    margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -48,20 +51,17 @@ const StyledTenant = styled.div`
   }
 
   .lease {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-
-    div {
+    margin-top: 2rem;
+    border-top: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
+    .items {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
-
       .lease-item {
         display: flex;
         flex-direction: column;
         gap: 0rem;
+        margin-right: 2rem;
 
         p {
           color: ${({ theme }) => theme.colors.textSecondary};
@@ -75,23 +75,29 @@ const StyledTenant = styled.div`
   }
 
   .department {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+    margin-top: 2rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryBackground};
 
-    .department-item {
+    .items {
       display: flex;
-      flex-direction: column;
-
-      p {
-        color: ${({ theme }) => theme.colors.textSecondary};
-        opacity: 0.6;
-      }
-      h3 {
-        margin-left: 0.75rem;
+      flex-wrap: wrap;
+      .department-item {
+        display: flex;
+        flex-direction: column;
+        margin-right: 2rem;
+        p {
+          color: ${({ theme }) => theme.colors.textSecondary};
+          opacity: 0.6;
+        }
+        h3 {
+          margin-left: 0.75rem;
+        }
       }
     }
+  }
+
+  .payments {
+    margin-top: 2rem;
   }
 `;
 
@@ -159,11 +165,11 @@ export default function Tenant() {
           <div className="tenant-item name">
             <p>Nombre</p>
 
-            <h3>
+            <h1>
               {capitalizeWords(
                 `${tenantQuery?.data?.data.first_name} ${tenantQuery?.data?.data.last_name}`
               )}
-            </h3>
+            </h1>
           </div>
           <div className="tenant-item tel">
             <p>Teléfono</p>
@@ -189,7 +195,9 @@ export default function Tenant() {
           <Dots />
         ) : lease ? (
           <div className="lease">
-            <div>
+            <h2>Contrato</h2>
+
+            <div className="items">
               <div className="lease-item status">
                 <p>Estatus del contrato</p>
                 <h3>
@@ -205,9 +213,7 @@ export default function Tenant() {
                 <p>Tipo de contrato</p>
                 <h3>{lease?.type}</h3>
               </div>
-            </div>
 
-            <div>
               <div className="lease-item payment-day">
                 <p>Día de cobro</p>
                 <h3>{lease?.payment_day}</h3>
@@ -225,9 +231,7 @@ export default function Tenant() {
                   <h3>${formatPrice(lease.upfront_payment)}</h3>
                 </div>
               )}
-            </div>
 
-            <div>
               {lease?.start_date && (
                 <div className="lease-item start-date">
                   <p>Fecha de inicio</p>
@@ -255,29 +259,61 @@ export default function Tenant() {
           <Dots />
         ) : department ? (
           <div className="department">
-            <div className="department-item building">
-              <p>Edificio</p>
-              <h3>{department?.building?.name}</h3>
-            </div>
-            <div className="department-item bathrooms">
-              <p>Numero de Baños</p>
-              <h3>{department?.bathrooms}</h3>
-            </div>
-            <div className="department-item bedrooms">
-              <p>Numero de cuartos</p>
-              <h3>{department?.bedrooms}</h3>
+            <h2>Departamento</h2>
+            <div className="items">
+              <div className="department-item building">
+                <p>Edificio</p>
+                <h3>{department?.building?.name}</h3>
+              </div>
+              <div className="department-item bathrooms">
+                <p>Numero de Baños</p>
+                <h3>{department?.bathrooms}</h3>
+              </div>
+              <div className="department-item bedrooms">
+                <p>Numero de cuartos</p>
+                <h3>{department?.bedrooms}</h3>
+              </div>
             </div>
           </div>
         ) : null}
+
         {paymentsQuery?.isLoading ? (
           <Dots />
-        ) : payments && payments?.length > 0 ? (
-          <>
-            <h2>Rentas: </h2>
-            {payments.map((payment, idx) => (
-              <PaymentItem payment={payment} key={payment.id + "_" + idx} />
-            ))}
-          </>
+        ) : payments && payments.length > 0 ? (
+          <div className="payments">
+            {payments.filter((p) => p.status === "pendiente").length > 0 && (
+              <>
+                <h2>Pagos vencidos</h2>
+                {payments
+                  .filter((p) => p.status === "vencido")
+                  .map((p, i) => (
+                    <PaymentItem payment={p} key={`pendiente-${p.id}-${i}`} />
+                  ))}
+              </>
+            )}
+
+            {payments.filter((p) => p.status === "pendiente").length > 0 && (
+              <>
+                <h2>Próximos pagos</h2>
+                {payments
+                  .filter((p) => p.status === "pendiente")
+                  .map((p, i) => (
+                    <PaymentItem payment={p} key={`porcobrar-${p.id}-${i}`} />
+                  ))}
+              </>
+            )}
+
+            {payments.filter((p) => p.status === "pagado").length > 0 && (
+              <>
+                <h2>Pagos realizados</h2>
+                {payments
+                  .filter((p) => p.status === "pagado")
+                  .map((p, i) => (
+                    <PaymentItem payment={p} key={`pagado-${p.id}-${i}`} />
+                  ))}
+              </>
+            )}
+          </div>
         ) : null}
       </Container>
     </StyledTenant>
