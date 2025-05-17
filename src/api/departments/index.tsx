@@ -84,7 +84,6 @@ export const assignDepartment = async (
 export const getDepartmentByTenantId = async (
   id: number
 ): Promise<ApiResponse<Partial<Department>>> => {
-  console.log("getDepartmentByTenantId", id);
   const response = await axiosInstance.get<ApiResponse<Partial<Department>>>(
     `departments/tenant/${id}`
   );

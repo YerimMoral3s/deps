@@ -26,7 +26,6 @@ export const useInvalidateDepartmentByTenantId = () => {
 
 export const useDepartmentByTenantId = (tenant_id?: number) => {
   if (!tenant_id) return null;
-  console.log("tenant_id", tenant_id);
   return useQuery<ApiResponse<Partial<Department>>, ApiError>({
     queryKey: tenantQueryKeys.getTenantDepartment(tenant_id), // ✅ Unique key for caching
     queryFn: () => getDepartmentByTenantId(tenant_id),
