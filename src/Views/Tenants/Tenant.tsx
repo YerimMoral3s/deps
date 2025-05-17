@@ -14,7 +14,7 @@ import {
   useRouteParams,
   useTenantById,
 } from "../../hooks";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import LoaderView from "../../components/LoaderView";
 import { GoDotFill } from "react-icons/go";
 import { useTenantLease } from "../../hooks/useTenantLease";
@@ -121,6 +121,18 @@ export default function Tenant() {
   const lease = leaseQuery?.data?.data;
   const department = departmentQuery?.data?.data;
   const payments = paymentsQuery?.data?.data;
+
+  const { vencidos, pendientes, pagados, cancelados } = useMemo(() => {
+    if (!payments)
+      return { vencidos: [], pendientes: [], pagados: [], cancelados: [] };
+
+    return {
+      vencidos: payments.filter((p) => p.status === "vencido"),
+      pendientes: payments.filter((p) => p.status === "pendiente"),
+      pagados: payments.filter((p) => p.status === "pagado"),
+      cancelados: payments.filter((p) => p.status === "cancelado"),
+    };
+  }, [payments]);
 
   useEffect(() => {
     if (!urlParams?.tenantId) {
@@ -281,36 +293,38 @@ export default function Tenant() {
           <Dots />
         ) : payments && payments.length > 0 ? (
           <div className="payments">
-            {payments.filter((p) => p.status === "pendiente").length > 0 && (
+            {vencidos.length > 0 && (
               <>
                 <h2>Pagos vencidos</h2>
-                {payments
-                  .filter((p) => p.status === "vencido")
-                  .map((p, i) => (
-                    <PaymentItem payment={p} key={`pendiente-${p.id}-${i}`} />
-                  ))}
+                {vencidos.map((p, i) => (
+                  <PaymentItem payment={p} key={`vencido-${p.id}-${i}`} />
+                ))}
               </>
             )}
 
-            {payments.filter((p) => p.status === "pendiente").length > 0 && (
+            {pendientes.length > 0 && (
               <>
                 <h2>Próximos pagos</h2>
-                {payments
-                  .filter((p) => p.status === "pendiente")
-                  .map((p, i) => (
-                    <PaymentItem payment={p} key={`porcobrar-${p.id}-${i}`} />
-                  ))}
+                {pendientes.map((p, i) => (
+                  <PaymentItem payment={p} key={`pendiente-${p.id}-${i}`} />
+                ))}
               </>
             )}
 
-            {payments.filter((p) => p.status === "pagado").length > 0 && (
+            {pagados.length > 0 && (
               <>
                 <h2>Pagos realizados</h2>
-                {payments
-                  .filter((p) => p.status === "pagado")
-                  .map((p, i) => (
-                    <PaymentItem payment={p} key={`pagado-${p.id}-${i}`} />
-                  ))}
+                {pagados.map((p, i) => (
+                  <PaymentItem payment={p} key={`pagado-${p.id}-${i}`} />
+                ))}
+              </>
+            )}
+            {cancelados.length > 0 && (
+              <>
+                <h2>Pagos realizados</h2>
+                {cancelados.map((p, i) => (
+                  <PaymentItem payment={p} key={`cancelado-${p.id}-${i}`} />
+                ))}
               </>
             )}
           </div>
