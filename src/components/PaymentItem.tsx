@@ -57,6 +57,7 @@ export default function PaymentItem({
     month: "long",
     day: "numeric",
     weekday: "long",
+    timeZone: "UTC",
   }).format(new Date(payment.due_date));
 
   const markAsPaid = useDebouncedCallback(() => {
