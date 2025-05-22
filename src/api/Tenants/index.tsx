@@ -92,3 +92,19 @@ export const getTenantById = async (
 
   return response.data;
 };
+
+export type updateTenant = Omit<Partial<Tenant>, "phone">;
+export type updateTenantData = { tenant_id: number; data: updateTenant };
+
+export const updateTenant = async ({ tenant_id, data }: updateTenantData) => {
+  try {
+    const response = await axiosInstance.put<ApiResponse<Tenant>>(
+      `tenants/${tenant_id}`,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error creating tenant with lease:", error);
+    throw error;
+  }
+};

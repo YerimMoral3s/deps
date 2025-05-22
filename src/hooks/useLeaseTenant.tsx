@@ -4,7 +4,7 @@ import { ApiError, ApiResponse } from "../api/axios";
 
 export const QUERY_KEY_TENANT_ID = ["tenant_id"];
 
-const tenantQueryKeys = {
+export const tenantQueryKeys = {
   tenant: [QUERY_KEY_TENANT_ID] as const,
   getTenant: (tenantId: number) => {
     return [QUERY_KEY_TENANT_ID, tenantId] as const;

@@ -78,7 +78,8 @@ export const Modal: React.FC<ModalProps> = ({
   ...rest
 }) => {
   useEffect(() => {
-    document.body.style.overflow = "hidden"; // ✅ Disable scrolling when modal is open
+    if (isOpen) document.body.style.overflow = "hidden"; // ✅ Disable scrolling when modal is open
+    if (!isOpen) document.body.style.overflow = ""; // ✅ Disable scrolling when modal is open
 
     return () => {
       document.body.style.overflow = ""; // ✅ Ensure scroll is re-enabled when unmounting

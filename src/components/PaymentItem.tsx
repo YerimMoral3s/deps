@@ -4,6 +4,7 @@ import { useUpdatePaymentStatus } from "../hooks";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { ApiError } from "../api/axios";
+// import { Modal } from "./Modal";
 
 const getTenantStatusColor = (status: PaymentStatus) => {
   switch (status) {
@@ -44,6 +45,7 @@ export default function PaymentItem({
   const onSuccess = () => {
     toast.success("Pago registrado correctamente");
   };
+  // const [open, setIsOpen] = useState(false);
 
   const onLoginError = (error: ApiError) => toast.error(error.message);
 
@@ -69,6 +71,10 @@ export default function PaymentItem({
 
   return (
     <StyledPayment $status={payment.status}>
+      {/* <Modal isOpen={open} onClose={() => setIsOpen(!open)} className="fade-in">
+        <h2>Editar</h2>
+      </Modal> */}
+
       <h3>{payment.type === "deposit" ? "Depósito" : "Pago de renta"}</h3>
       <p>{formattedDueDate}</p>
       <p>
@@ -90,7 +96,7 @@ export default function PaymentItem({
           <button onClick={markAsPaid}>✅ Marcar como pagado</button>
         )}
 
-        <button onClick={() => alert("Abrir modal")}>✏️ Editar</button>
+        {/* <button onClick={() => setIsOpen(true)}>✏️ Editar</button> */}
       </div>
     </StyledPayment>
   );
